@@ -25,6 +25,7 @@ public class Player {
         this.image = app.loadImage(imagePath);
         this.width = image.width;
         this.height = image.height;
+
     }
     
     public int getWidth(){
@@ -40,7 +41,7 @@ public class Player {
          y+= dy;
     }
     public void draw(){
-        
+        app.image(image, x, y);
     }
     
     public boolean isCollidingWith (Player other){
