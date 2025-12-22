@@ -13,6 +13,7 @@ public class FinalProject {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        //Run the program
         MySketch.main("finalproject.MySketch");
     }
     

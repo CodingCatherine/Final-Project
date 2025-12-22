@@ -3,27 +3,43 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package finalproject;
-
-/**
- *
- * @author Notak
- */
+//import PApplet
 import processing.core.PApplet;
 
-public class MySketch extends PApplet {
+/**
+ * MySketch class allows for us to add graphics and draw to the screen
+ * @author Catherine Lin
+ * @since 2025-12-21
+ * @version 1
+ */
 
+public class MySketch extends PApplet {
+    //Initialize a player object
     private Player player;
+    //Don't show the player/boss information until the user clicks it
     private boolean showInfo = false;
     
+    /**
+     * Allows us to change the settings of the PApplet
+     */
     public void settings(){
+        //Changing the size of the window
         size(1500, 800);
     }
     
+    /**
+     * Allows us to set up the game and the defaults 
+     */
     public void setup(){
+        //Set background colour
         background(255);
+        //Instantiate a player object
         player = new Player(this, 0, 0, "Player", "images/idle/player1.png");
     }
     
+    /**
+     * Allows for us to check if the mouse has been pressed
+     */
     public void mousePressed(){
         if(player.isClicked(mouseX,mouseY)){
             showInfo = !showInfo;
@@ -32,8 +48,12 @@ public class MySketch extends PApplet {
         }
     }
     
+    /**
+     * 
+     */
     public void draw(){
         background(255);
+        
         int dx = 0;
         int dy = 0;
         
@@ -52,6 +72,7 @@ public class MySketch extends PApplet {
         stroke(255,0,0);
         rect(player.x,player.y, player.getWidth(), player.getHeight());
         
+        //Show info if the flag is tripped
         if (showInfo){
             player.displayInfo(this);
         }
