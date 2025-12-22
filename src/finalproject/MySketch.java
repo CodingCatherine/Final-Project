@@ -8,6 +8,10 @@ package finalproject;
  *
  * @author Notak
  */
-public class MySketch {
+import processing.core.PApplet;
+
+public class MySketch extends PApplet {
+
+    
     
 }
