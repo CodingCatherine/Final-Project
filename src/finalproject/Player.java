@@ -42,7 +42,7 @@ public class Player {
     
     private int currentFrame = 0; // Holds the index of the current frame
     private int frameCounter = 0; // Holds the amount of time/frames the current frame has been drawn onto the screen
-    private int frameSpeed = 6; // Holds the amount of time/frames each frame in the animation should last
+    private int frameSpeed = 5; // Holds the amount of time/frames each frame in the animation should last
     private boolean isMoving = false; //Detects if the player is currently moving
     
     
@@ -156,7 +156,8 @@ public class Player {
             //If player is idle (default)
             case IDLE:
                 //Check if the current frame has been displayed for long enough
-                if (frameCounter >= frameSpeed * 2) { //Display at a slower rate (it is repeated a lot)                    //Displays the next frame if the previous frame has been displayed for long enough
+                if (frameCounter >= frameSpeed * 3) { //Display at a slower rate (it is repeated a lot)                    
+                    //Displays the next frame if the previous frame has been displayed for long enough
                     //If the program reaches the last frame it will loop to the beginning again
                     currentFrame = (currentFrame + 1) % idleFrames.length;
                     //Set frame counter to 0 since the new frame has just been displayed

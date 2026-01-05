@@ -22,6 +22,7 @@ public class MySketch extends PApplet {
     /**
      * Allows us to change the settings of the PApplet
      */
+    @Override
     public void settings(){
         //Changing the size of the window
         size(1500, 800);
@@ -30,6 +31,7 @@ public class MySketch extends PApplet {
     /**
      * Allows us to set up the game and the defaults 
      */
+    @Override
     public void setup(){
         //Set background colour
         background(255);
@@ -40,6 +42,7 @@ public class MySketch extends PApplet {
     /**
      * Allows for us to check if the mouse has been pressed
      */
+    @Override
     public void mousePressed(){
         if(player.isClicked(mouseX,mouseY)){
             showInfo = !showInfo;
@@ -49,7 +52,7 @@ public class MySketch extends PApplet {
     }
     
     /**
-     * 
+     * Draws to the screen
      */
     public void draw(){
         background(255);
@@ -58,14 +61,26 @@ public class MySketch extends PApplet {
         int dy = 0;
         
         if (keyPressed){
-            if (key == 'a') dx = -3;
-            else if (key == 'd') dx = 3;
-            else if (key == 'w') dy = -3;
-            else if (key == 's') dy = 3;
+            switch (key) {
+                case 'a':
+                    dx = -3;
+                    break;
+                case 'd':
+                    dx = 3;
+                    break;
+                case 'w':
+                    dy = -3;
+                    break;
+                case 's':
+                    dy = 3;
+                    break;
+                default:
+                    break;
+            }
         }
         
-        player.move(dx,dy);
-        player.draw();
+        player.move(dx,dy); // Move player 
+        player.draw(); // Draw player
         
         //Collide Checker
         noFill();
