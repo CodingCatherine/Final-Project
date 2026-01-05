@@ -25,7 +25,7 @@ public class MySketch extends PApplet {
     @Override
     public void settings(){
         //Changing the size of the window
-        size(1500, 800);
+        size(1500, 700);
     }
     
     /**
@@ -51,12 +51,7 @@ public class MySketch extends PApplet {
         }
     }
     
-    /**
-     * Draws to the screen
-     */
-    public void draw(){
-        background(255);
-        
+    public void movement(){
         int dx = 0;
         int dy = 0;
         
@@ -80,6 +75,14 @@ public class MySketch extends PApplet {
         }
         
         player.move(dx,dy); // Move player 
+    }
+    
+    /**
+     * Draws to the screen
+     */
+    public void draw(){
+        background(255);
+        movement(); // call on movement method
         player.draw(); // Draw player
         
         //Collide Checker
