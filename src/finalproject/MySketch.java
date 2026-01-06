@@ -17,7 +17,7 @@ public class MySketch extends PApplet {
     //Initialize a player object
     private Player player;
     private opening Op;
-    gameState State = gameState.Opening;
+    gameState State = gameState.Tutorial;
     //Don't show the player/boss information until the user clicks it
     private boolean showInfo = false;
     
