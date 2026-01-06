@@ -18,6 +18,8 @@ public class character {
     protected PApplet app;
     protected PImage image;
     protected int width, height;
+    protected PImage textImage;
+    
     
     public character(PApplet p, int x, int y, String name, String imagePath){
         this.app = p;

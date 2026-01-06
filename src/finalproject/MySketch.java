@@ -112,7 +112,21 @@ public class MySketch extends PApplet {
                 movement(); // call on movement method
                 break;
                 
+            case StageTwo:
+                break;
                 
+            case StageThree:
+                break;
+                
+            case StageFour:
+                break;
+                
+            case FreeingWukong:
+                break;
+                
+            case End:
+                break;
+                  
         }        
         //Show info if the flag is tripped
         if (showInfo){

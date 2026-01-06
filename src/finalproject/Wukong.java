@@ -1,0 +1,18 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package finalproject;
+
+import processing.core.PApplet;
+
+/**
+ *
+ * @author Notak
+ */
+public class Wukong extends character {
+    public Wukong(PApplet p, int x, int y, String name, String imagePath){
+        super(p,x,y,name,imagePath);
+    }
+    
+}
