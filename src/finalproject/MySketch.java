@@ -74,21 +74,39 @@ public class MySketch extends PApplet {
             }
         }
         
-        player.move(dx,dy); // Move player 
-    }
-    
-    /**
-     * Draws to the screen
-     */
-    public void draw(){
-        background(255);
-        movement(); // call on movement method
+        player.move(dx,dy); // Move player
         player.draw(); // Draw player
         
         //Collide Checker
         noFill();
         stroke(255,0,0);
         rect(player.x,player.y, player.getWidth(), player.getHeight());
+    }
+    
+    enum gameState{
+        Opening,
+        CharacterCreation,
+        Tutorial,
+        StageTwo,
+        StageThree,
+        StageFour,
+        FreeingWukong, 
+        End,
+        
+    }
+    
+    /**
+     * Draws to the screen
+     */
+    public void draw(){
+        switch(gameState){
+            case Opening:
+                opening.display();
+                
+                
+        }
+        background(255);
+        movement(); // call on movement method
         
         //Show info if the flag is tripped
         if (showInfo){
