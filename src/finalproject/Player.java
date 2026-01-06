@@ -22,7 +22,7 @@ enum playerState{
  * @since 2025-12-21
  * @version 1
  */
-public class Player {
+public class Player extends character{
     //Attributes
     public int x, y;
     private String name;
