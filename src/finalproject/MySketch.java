@@ -16,6 +16,8 @@ import processing.core.PApplet;
 public class MySketch extends PApplet {
     //Initialize a player object
     private Player player;
+    private opening Op;
+    gameState State = gameState.Opening;
     //Don't show the player/boss information until the user clicks it
     private boolean showInfo = false;
     
@@ -37,6 +39,7 @@ public class MySketch extends PApplet {
         background(255);
         //Instantiate a player object
         player = new Player(this, 0, 0, "Player", "images/idle/player1.png");
+        Op = new opening (this, "images/opening/Opening24.png");
     }
     
     /**
@@ -99,15 +102,18 @@ public class MySketch extends PApplet {
      * Draws to the screen
      */
     public void draw(){
-        switch(gameState){
+        switch(State){
             case Opening:
-                opening.display();
+                Op.display();
+                break;
+                
+            case Tutorial:
+                background(255);
+                movement(); // call on movement method
+                break;
                 
                 
-        }
-        background(255);
-        movement(); // call on movement method
-        
+        }        
         //Show info if the flag is tripped
         if (showInfo){
             player.displayInfo(this);

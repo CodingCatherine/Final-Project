@@ -45,7 +45,7 @@ public class opening {
         
     }
     
-    public void draw(){
+    public void display(){
         updateAnimation();
         app.image(openingframes[currentFrame], 0, 0);
     }
