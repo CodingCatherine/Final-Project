@@ -23,12 +23,7 @@ enum playerState{
  * @version 1
  */
 public class Player extends character{
-    //Attributes
-    public int x, y;
-    private String name;
-    private PApplet app;
-    private PImage image;
-    private int width, height;
+    
     //For animations we also require a state so the program knows which animation we need
     private playerState state = playerState.IDLE; // Set the current player state to idle (default) 
     
@@ -55,14 +50,7 @@ public class Player extends character{
      * @param imagePath holds the current image of the player (animations)
      */
     public Player(PApplet p, int x, int y, String name, String imagePath){
-        //Assign attributes
-        this.app = p;
-        this.x = x;
-        this.y = y;
-        this.name = name;
-        this.image = app.loadImage(imagePath);
-        this.width = image.width;
-        this.height = image.height;
+        super(p,x,y,name,imagePath);
         
         //Animation
         //Import the required images and put them into their respective arrays
@@ -168,20 +156,6 @@ public class Player extends character{
         }
                 
     }
-    /**
-     * gets the width of the specified player
-     * @return the width of the specified player
-     */
-    public int getWidth(){
-        return width;
-    }
-    /**
-     * gets the height of the specified player
-     * @return the height of the specified player
-     */
-    public int getHeight(){
-        return height;
-    }
     
     /**
      * changes the players x and y values to move them across the screen
@@ -240,45 +214,5 @@ public class Player extends character{
                 break;
         }
     }
-    
-    /**
-     * Checks if the current player is colliding with another player
-     * @param other another player that you want to check if the current is colliding with
-     * @return true if they are colliding false if they are not
-     */
-    public boolean isCollidingWith (Player other){
-        boolean isLeftOfOtherRight = x < other.x + other.width;
-        boolean isRightOfOtherLeft = x + width > other.x;
-        boolean isAboveOtherBottom = y < other.y + other.height;
-        boolean isBelowOtherTop = y + height > other.y;
-        
-        return isLeftOfOtherRight &&  isRightOfOtherLeft
-        && isAboveOtherBottom && isBelowOtherTop;
-        
-    }
-    
-    /**
-     * Check if the mouse has been clicked
-     * @param mouseX get the x value of the mouse
-     * @param mouseY get the y value of the mouse
-     * @return true if the mouse has clicked the player false if it has not
-     */
-    public boolean isClicked(int mouseX, int mouseY){
-        return mouseX > x && mouseX < x + image.pixelWidth && 
-                mouseY > y && mouseY < y + image.pixelHeight; 
-        
-    }
-    
-    /**
-     * Displays the information of the player that the user has clicked
-     * @param p the PApplet of the selected player
-     */
-    public void displayInfo(PApplet p){
-        p.fill(0);
-        p.text("name: " + name, x, y - 20);
-    }
-    
-    
-    
     
 }
