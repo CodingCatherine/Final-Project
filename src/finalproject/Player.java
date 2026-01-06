@@ -19,8 +19,8 @@ enum playerState{
 /**
  *Player Class to create and hold player objects(who the user will control)
  * @author Catherine
- * @since 2025-12-21
- * @version 1
+ * @since 2026-01-06
+ * @version 2
  */
 public class Player extends character{
     
