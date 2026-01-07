@@ -19,6 +19,7 @@ public class opening {
     private int currentFrame = 0; // Holds the index of the current frame
     private int frameCounter = 0; // Holds the amount of time/frames the current frame has been drawn onto the screen
     private int frameSpeed = 5; // Holds the amount of time/frames each frame in the animation should last
+    private boolean text = false;
     
     public opening(PApplet p, String imagePath){
         this.app = p;
@@ -40,6 +41,9 @@ public class opening {
                 currentFrame ++;
                 frameCounter = 0; 
             }
+        }else{
+            currentFrame = 23;
+            text = true;
         }
         
         
@@ -48,6 +52,17 @@ public class opening {
     public void display(){
         updateAnimation();
         app.image(openingframes[currentFrame], 0, 0);
+        if (text){
+            
+        }
+        
+    }
+    public void openingdia(PImage player, PImage wukong, PImage box){
+        
+        
+        
     }
     
 }
+
+
