@@ -4,20 +4,23 @@
  */
 package finalproject;
 //import PApplet
+import java.io.File;
 import processing.core.PApplet;
 
 /**
  * MySketch class allows for us to add graphics and draw to the screen
  * @author Catherine Lin
- * @since 2025-12-21
- * @version 1
+ * @since 2026-01-06
+ * @version 2
  */
 
 public class MySketch extends PApplet {
     //Initialize a player object
     private Player player;
     private opening Op;
-    gameState State = gameState.Tutorial;
+    private Dialogue text;
+    private File file = new File ("openingDialogue.txt");
+    gameState State = gameState.Opening;
     //Don't show the player/boss information until the user clicks it
     private boolean showInfo = false;
     
@@ -39,7 +42,8 @@ public class MySketch extends PApplet {
         background(255);
         //Instantiate a player object
         player = new Player(this, 0, 0, "Player", "images/idle/player1.png");
-        Op = new opening (this, "images/opening/Opening24.png");
+        text = new openingDialogue(this, "images/textbox/talkbox.png", file, "images/textbox/playericon.png", "images/textbox/wukongicon.png");
+        Op = new opening (this, "images/opening/Opening24.png", text);
     }
     
     /**
@@ -84,6 +88,9 @@ public class MySketch extends PApplet {
         noFill();
         stroke(255,0,0);
         rect(player.x,player.y, player.getWidth(), player.getHeight());
+    }
+    
+    public void Skip(){
     }
     
     enum gameState{

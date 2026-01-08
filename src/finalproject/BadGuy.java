@@ -4,8 +4,8 @@
  */
 package finalproject;
 
+import finalproject.character;
 import processing.core.PApplet;
-import processing.core.PImage;
 
 /**
  *
