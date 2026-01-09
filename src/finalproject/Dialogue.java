@@ -14,6 +14,7 @@ import processing.core.PImage;
  *
  * @author Notak
  */
+
 public class Dialogue {
     protected PApplet app;
     protected PImage box;
@@ -22,6 +23,8 @@ public class Dialogue {
     
     protected String [][] lines;
     protected int currentLine = 0;
+    
+    public boolean finished = false;
     
     public Dialogue(PApplet p, String boxpath, File d){
         this.app = p;
@@ -66,7 +69,9 @@ public class Dialogue {
     
     public void goNext(){
         if (currentLine < lines.length-1){
-            currentLine++;
+            currentLine +=1 ;
+        }else if (currentLine == lines.length - 1){
+            finished = true;
         }
     }
     

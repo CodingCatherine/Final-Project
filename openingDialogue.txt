@@ -1,8 +1,8 @@
 player, You called for me master?
-player, no
-wukong, yes
-player, woah
-wukong, rahhhhh
+wukong, Yes I have. 
+wukong, op  .
+wukong, op
+wukong, o
 wukong, no
 player, ouioui
 wukong, oop

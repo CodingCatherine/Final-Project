@@ -23,9 +23,7 @@ public class opening {
     private int frameSpeed = 5; // Holds the amount of time/frames each frame in the animation should last
     
     private boolean talking = false;
-    private int wordCounter = 0;
     private int currentWord = 0;
-    private int wordLength = 10;
     
     
     public opening(PApplet p, String imagePath, Dialogue dia){
@@ -56,7 +54,6 @@ public class opening {
         
         
     }
-    
     
     public void display(){
         updateAnimation();

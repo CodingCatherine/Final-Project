@@ -23,6 +23,7 @@ public class MySketch extends PApplet {
     gameState State = gameState.Opening;
     //Don't show the player/boss information until the user clicks it
     private boolean showInfo = false;
+    public boolean finishedop = false;
     
     /**
      * Allows us to change the settings of the PApplet
@@ -90,17 +91,17 @@ public class MySketch extends PApplet {
         rect(player.x,player.y, player.getWidth(), player.getHeight());
     }
     
-    public void Skip(){
-        if (keyPressed){
-            switch(key){
-                case 'f':
-                case 'F':
-                    text.goNext();
-                    break;
-                    
-            }
+    public void keyPressed(){
+        switch(State){
+            case Opening:
+                switch(key){
+                    case 'f':
+                    case 'F':
+                        text.goNext();
+                        break;
+                    }
+                break;
         }
-        
     }
     
     enum gameState{
@@ -115,6 +116,10 @@ public class MySketch extends PApplet {
         
     }
     
+    public void changeState(gameState newState){
+       State = newState;
+    }
+    
     /**
      * Draws to the screen
      */
@@ -122,7 +127,9 @@ public class MySketch extends PApplet {
         switch(State){
             case Opening:
                 Op.display();
-                Skip();
+                if (text.finished){
+                    changeState(gameState.Tutorial);
+                }
                 break;
                 
             case Tutorial:
