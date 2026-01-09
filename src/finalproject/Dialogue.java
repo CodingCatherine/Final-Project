@@ -64,4 +64,10 @@ public class Dialogue {
        this.lines = readDialogue(dia);
     }
     
+    public void goNext(){
+        if (currentLine < lines.length-1){
+            currentLine++;
+        }
+    }
+    
 }
