@@ -91,6 +91,16 @@ public class MySketch extends PApplet {
     }
     
     public void Skip(){
+        if (keyPressed){
+            switch(key){
+                case 'f':
+                case 'F':
+                    text.goNext();
+                    break;
+                    
+            }
+        }
+        
     }
     
     enum gameState{
@@ -112,6 +122,7 @@ public class MySketch extends PApplet {
         switch(State){
             case Opening:
                 Op.display();
+                Skip();
                 break;
                 
             case Tutorial:

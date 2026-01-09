@@ -38,8 +38,12 @@ public class openingDialogue extends Dialogue {
         app.textSize(20);
         app.text(text, 480, 600);
         app.text("Click 'f' to continue", 800, 680);
+        
+        
       
     }
+    
+    
     
     
     

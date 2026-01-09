@@ -21,7 +21,12 @@ public class opening {
     private int currentFrame = 0; // Holds the index of the current frame
     private int frameCounter = 0; // Holds the amount of time/frames the current frame has been drawn onto the screen
     private int frameSpeed = 5; // Holds the amount of time/frames each frame in the animation should last
+    
     private boolean talking = false;
+    private int wordCounter = 0;
+    private int currentWord = 0;
+    private int wordLength = 10;
+    
     
     public opening(PApplet p, String imagePath, Dialogue dia){
         this.app = p;
@@ -56,11 +61,11 @@ public class opening {
     public void display(){
         updateAnimation();
         app.image(openingframes[currentFrame], 0, 0);
+        
         if (talking){
             text.load();
             text.display();
         }
-        
     }
 }
 
