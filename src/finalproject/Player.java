@@ -10,9 +10,9 @@ import processing.core.PImage;
 //Special type of class
 //Enumeration defines the player states of the game and stores it as constants
 enum playerState{
-    IDLE,
-    WALKRIGHT,
-    WALKLEFT
+    IDLE, //Idle Animation
+    WALKRIGHT, // Walk Right Animation
+    WALKLEFT // Walk Left Animation
 }
 /**
  *Player Class to create and hold player objects(who the user will control)
@@ -141,6 +141,10 @@ public class Player extends character{
          
     }
     
+    /**
+     * Change the y of the user
+     * @param y the y we want to change the player to
+     */
     public void setY(int y){
         this.y = y;
     }

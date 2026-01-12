@@ -118,6 +118,7 @@ public class MySketch extends PApplet {
      * An enum to hold all of the game states of the game (all of the levels)
      */
     enum gameState{
+        Title,
         Opening,
         Mountain,
         Tutorial,
@@ -129,6 +130,10 @@ public class MySketch extends PApplet {
         
     }
     
+    /**
+     * Method to change the current state of the game
+     * @param newState the new state that we want to change the game to
+     */
     private void changeState(gameState newState){
        State = newState;
     }
@@ -139,6 +144,10 @@ public class MySketch extends PApplet {
     public void draw(){
         //Switch statement holds all of the levels and runs them depending on the level the user is on
         switch(State){
+            case Title:
+                
+                break;
+            
             case Opening:
                 Op.display();
                 if (text.finished){
