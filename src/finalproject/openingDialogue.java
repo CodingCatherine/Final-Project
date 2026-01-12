@@ -14,8 +14,8 @@ public class openingDialogue extends Dialogue {
     private PImage player;
     private PImage Wukong;
     
-    public openingDialogue(PApplet p, String boxpath, File d, String playerPath, String wukongPath){
-        super(p, boxpath, d);
+    public openingDialogue(PApplet p, String boxpath, File d, int words,  String playerPath, String wukongPath){
+        super(p, boxpath, d, words);
         this.player = app.loadImage(playerPath);
         this.Wukong = app.loadImage(wukongPath);
 

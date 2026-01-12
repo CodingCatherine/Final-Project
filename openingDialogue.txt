@@ -1,8 +1,5 @@
 player, You called for me master?
 wukong, Yes I have. 
-wukong, op  .
-wukong, op
-wukong, o
-wukong, no
-player, ouioui
-wukong, oop
+wukong, I am going on a journey and will not be back soon
+wukong, Once I reach my goal I will send a letter back
+player, Okay hope your journey is successful

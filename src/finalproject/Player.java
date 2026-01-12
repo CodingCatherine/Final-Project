@@ -11,8 +11,6 @@ import processing.core.PImage;
 //Enumeration defines the player states of the game and stores it as constants
 enum playerState{
     IDLE,
-    WALKUP,
-    WALKDOWN,
     WALKRIGHT,
     WALKLEFT
 }
@@ -30,8 +28,6 @@ public class Player extends character{
     //Animation 
     //Arrays to hold the images required for each animation
     private PImage[] idleFrames;
-    private PImage[] walkdownFrames;
-    private PImage[] walkupFrames;
     private PImage[] walkrightFrames;
     private PImage[] walkleftFrames;
     
@@ -64,18 +60,6 @@ public class Player extends character{
             idleFrames[i-1] = p.loadImage("images/idle/player"+(i-6)+".png");
         }
         
-        //Walking Down Animation
-        walkdownFrames = new PImage[12];
-        for (int i = 1; i < 13; i++){
-            walkdownFrames[i-1] = p.loadImage("images/down/playerdown"+i+".png");
-        }
-        
-        //Walking Up Animation
-        walkupFrames = new PImage[12];
-        for (int i = 1; i < 13; i++){
-            walkupFrames[i-1] = p.loadImage("images/up/playerup"+i+".png");
-        }
-        
         //Walking right Animation
         walkrightFrames = new PImage[12];
         for (int i = 1; i < 13; i++){
@@ -97,28 +81,6 @@ public class Player extends character{
         frameCounter++; //Add one to the time
         
         switch(state){
-            //If Player is walking down
-            case WALKDOWN:
-                //Check if the current frame has been displayed for long enough
-                if (frameCounter >= frameSpeed) {
-                    //Displays the next frame if the previous frame has been displayed for long enough
-                    //If the program reaches the last frame it will loop to the beginning again
-                    currentFrame = (currentFrame + 1) % walkdownFrames.length;
-                    //Set frame counter to 0 since the new frame has just been displayed
-                    frameCounter = 0;
-                }
-                break;
-            //If player is walking up
-            case WALKUP:
-                //Check if the current frame has been displayed for long enough
-                if (frameCounter >= frameSpeed) {
-                    //Displays the next frame if the previous frame has been displayed for long enough
-                    //If the program reaches the last frame it will loop to the beginning again
-                    currentFrame = (currentFrame + 1) % walkupFrames.length;
-                    //Set frame counter to 0 since the new frame has just been displayed
-                    frameCounter = 0;
-                }
-                break;
             //If player is walking left
             case WALKLEFT:
                 //Check if the current frame has been displayed for long enough
@@ -160,21 +122,13 @@ public class Player extends character{
     /**
      * changes the players x and y values to move them across the screen
      * @param dx holds the value of the change in x
-     * @param dy holds the value of the change in y
      */
-    public void move (int dx, int dy){
+    public void move (int dx){
          x+= dx; //change the x
-         y+= dy; //change the y
          
-         isMoving = (dx != 0|| dy !=0); //Change isMoving to true aslong as x or y is changing
+         isMoving = (dx != 0); //Change isMoving to true aslong as x or y is changing
          
-         if (dy > 0){ 
-             state = playerState.WALKDOWN;
-         }
-         else if (dy < 0){
-             state = playerState.WALKUP;
-         }
-         else if (dx > 0){
+         if (dx > 0){
              state = playerState.WALKRIGHT;
          }
          else if (dx < 0){
@@ -186,21 +140,17 @@ public class Player extends character{
                  
          
     }
+    
+    public void setY(int y){
+        this.y = y;
+    }
     /**
      * draws the specified object + it's animations to the screen
      */
     public void draw(){
         updateAnimation();
         
-        switch(state){
-            case WALKDOWN:
-                app.image(walkdownFrames[currentFrame], x, y);
-                break;
-            
-            case WALKUP:
-                app.image(walkupFrames[currentFrame], x, y);
-                break;
-            
+        switch(state){          
             case WALKRIGHT:
                 app.image(walkrightFrames[currentFrame], x, y);
                 break;

@@ -19,17 +19,18 @@ public class Dialogue {
     protected PApplet app;
     protected PImage box;
     protected File dia;
-    private int words = 8;
+    private int words;
     
     protected String [][] lines;
     protected int currentLine = 0;
     
     public boolean finished = false;
     
-    public Dialogue(PApplet p, String boxpath, File d){
+    public Dialogue(PApplet p, String boxpath, File d, int words){
         this.app = p;
         this.box = app.loadImage(boxpath);
         this.dia = d;
+        this.words = words;
         
     }
     
