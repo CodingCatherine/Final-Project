@@ -145,7 +145,6 @@ public class MySketch extends PApplet {
         //Switch statement holds all of the levels and runs them depending on the level the user is on
         switch(State){
             case Title:
-                
                 break;
             
             case Opening:

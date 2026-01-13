@@ -4,7 +4,6 @@
  */
 package finalproject;
 //import PApplet and PImage
-import finalproject.Player;
 import processing.core.PApplet;
 import processing.core.PImage;
 
