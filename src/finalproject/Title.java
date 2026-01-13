@@ -17,12 +17,23 @@ public class Title {
     private button End;
     
     public Title(String imagePath, PApplet p, button start, button end){
-        this.image = app.loadImage(imagePath);
         this.app = p;
+        this.image = app.loadImage(imagePath);
         this.Start = start;
         this.End = end; 
         
     }
+    
+    public void displayTitle(){
+        app.image(image, 0, 0);
+        Start.display();
+        End.display();
+    }
+    
+    
+    
+    
+    
     
     
     

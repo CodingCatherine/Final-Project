@@ -19,8 +19,8 @@ public class button {
     private PApplet app;
     
     public button(String ImagePath, PApplet p, int x, int y){
-        this.image = app.loadImage(ImagePath);
         this.app = p;
+        this.image = app.loadImage(ImagePath);
         
         this.x = x;
         this.y = y; 
@@ -37,4 +37,10 @@ public class button {
                 mouseY > y && mouseY < y + image.pixelHeight; 
         
     }
+    
+    public void display(){
+        app.image(image, x, y);
+    }
+    
+
 }

@@ -23,8 +23,13 @@ public class MySketch extends PApplet {
     private Dialogue text;
     //Import the opening dialogue as a file
     private File opfile = new File ("openingDialogue.txt");
+    
+    private Title title; 
+    private button startbutton;
+    private button endbutton;
+    
     //Set the game State of the beginning of the game
-    gameState State = gameState.Opening;
+    gameState State = gameState.Title;
     //Don't show the player/boss information until the user clicks it
     private boolean showInfo = false;
     //Flag for if the opening dialogue has finished (set false as it hasn't finished yet)
@@ -52,6 +57,10 @@ public class MySketch extends PApplet {
         text = new openingDialogue(this, "images/textbox/talkbox.png", opfile, 5, "images/textbox/playericon.png", "images/textbox/wukongicon.png");
         //Instantiate the opening animations
         Op = new opening (this, "images/opening/Opening24.png", text);
+        startbutton = new button("images/title/start.png", this, 150, 450);
+        endbutton = new button("images/title/exit.png", this, 900, 450); 
+        title = new Title("images/title/titleScreen.png", this, startbutton, endbutton);
+        
     }
     
     /**
@@ -59,10 +68,23 @@ public class MySketch extends PApplet {
      */
     @Override
     public void mousePressed(){
-        if(player.isClicked(mouseX,mouseY)){
-            showInfo = !showInfo;
-        }else{
-            showInfo = false;
+        switch (State){
+            case Title:
+                if (startbutton.isClicked(mouseX, mouseY)){
+                    changeState(gameState.Opening);
+                }
+                else if(endbutton.isClicked(mouseX, mouseY)){
+                    System.exit(0);
+                }
+                
+                break;
+            case Tutorial:
+                if(player.isClicked(mouseX,mouseY)){
+                    showInfo = !showInfo;
+                }else{
+                    showInfo = false;
+                }
+                break;
         }
     }
     
@@ -145,6 +167,7 @@ public class MySketch extends PApplet {
         //Switch statement holds all of the levels and runs them depending on the level the user is on
         switch(State){
             case Title:
+                title.displayTitle();
                 break;
             
             case Opening:
