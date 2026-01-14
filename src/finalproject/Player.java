@@ -148,6 +148,14 @@ public class Player extends character{
     public void setY(int y){
         this.y = y;
     }
+    
+    /**
+     * Change the x of the user
+     * @param x the x that we want to change the player to
+     */
+    public void setX(int x){
+        this.x = x;
+    }
     /**
      * draws the specified object + it's animations to the screen
      */

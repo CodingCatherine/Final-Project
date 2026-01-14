@@ -32,11 +32,14 @@ public class MySketch extends PApplet {
     private letter Letter;
     
     //Set the game State of the beginning of the game
-    gameState State = gameState.Title;
+    gameState State = gameState.Tutorial;
     //Don't show the player/boss information until the user clicks it
     private boolean showInfo = false;
     //Flag for if the opening dialogue has finished (set false as it hasn't finished yet)
     public boolean finishedop = false;
+    
+    private Background tutback;
+    private Trial1 tutorial; 
     
     /**
      * Allows us to change the settings of the PApplet
@@ -65,6 +68,7 @@ public class MySketch extends PApplet {
         title = new Title("images/title/titleScreen.png", this, startbutton, endbutton);
         continuebutton = new button ("images/title/continue.png", this, 1000, 550);
         Letter = new letter(this, "images/title/letter.png", continuebutton);
+        tutback = new Background(this, 5, "titleBackground","trial 1");
         
     }
     
@@ -119,6 +123,7 @@ public class MySketch extends PApplet {
         }
         
         player.move(dx); // Move player either left (neg) or right (pos)
+        player.setY(370);
         player.draw(); // Draw player after movement
         
         //Collide Checker get rid of this when game is done
@@ -153,6 +158,7 @@ public class MySketch extends PApplet {
         Title,
         Opening,
         Mountain,
+        CharacterCreation,
         Tutorial,
         StageTwo,
         StageThree,
@@ -170,6 +176,25 @@ public class MySketch extends PApplet {
        State = newState;
     }
     
+    private void cycleBack(Background background){
+        background.display();
+        if (player.x < -25 && background.getIndex() == 0){
+            player.setX(-25);
+        }
+        else if (player.x < -25 && background.getIndex() != 0){
+            background.goBack();
+            background.display();
+            player.setX(1280);
+        }
+        else if (player.x > 1250&& background.getIndex() != (background.getSize()-2)){
+            background.goNext();
+            background.display();
+            player.setX(0);
+        }
+        else if (player.x > 1250 && background.getIndex() == (background.getSize()-2)){
+            player.setX(1250);
+        }
+    }    
     /**
      * Draws to the screen
      */
@@ -191,9 +216,12 @@ public class MySketch extends PApplet {
                 Letter.display();
                 break;
                 
+            case CharacterCreation:
+                
+                break;
+                
             case Tutorial:
-                background(255);
-                player.setY(300);
+                cycleBack(tutback);
                 movement(); // call on movement method
                 break;
                 
