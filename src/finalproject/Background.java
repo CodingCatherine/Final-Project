@@ -25,7 +25,7 @@ public class Background {
         
         images = new PImage[size];
         
-        for (int i = 1; i < images.length; i++){
+        for (int i = 1; i <= images.length; i++){
             images[i-1] = p.loadImage("images/"+Scene+"/" + title + i + ".png");
         }
     }

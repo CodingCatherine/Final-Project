@@ -39,7 +39,6 @@ public class MySketch extends PApplet {
     public boolean finishedop = false;
     
     private Background tutback;
-    private Trial1 tutorial; 
     
     /**
      * Allows us to change the settings of the PApplet
@@ -113,11 +112,11 @@ public class MySketch extends PApplet {
             switch (key) {
                 //If the user chooses to move left "a" dx = -3 (moving left) 
                 case 'a':
-                    dx = -3;
+                    dx = -4;
                     break;
                 //If the user chooses to move right "d" dx = 3 (moving right)
                 case 'd':
-                    dx = 3;
+                    dx = 4;
                     break;
             }
         }
@@ -184,14 +183,14 @@ public class MySketch extends PApplet {
         else if (player.x < -25 && background.getIndex() != 0){
             background.goBack();
             background.display();
-            player.setX(1280);
+            player.setX(1250);
         }
-        else if (player.x > 1250&& background.getIndex() != (background.getSize()-2)){
+        else if (player.x > 1250&& background.getIndex() != (background.getSize()-1)){
             background.goNext();
             background.display();
             player.setX(0);
         }
-        else if (player.x > 1250 && background.getIndex() == (background.getSize()-2)){
+        else if (player.x > 1250 && background.getIndex() == (background.getSize()-1)){
             player.setX(1250);
         }
     }    
