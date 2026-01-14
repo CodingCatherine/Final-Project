@@ -28,6 +28,9 @@ public class MySketch extends PApplet {
     private button startbutton;
     private button endbutton;
     
+    private button continuebutton;
+    private letter Letter;
+    
     //Set the game State of the beginning of the game
     gameState State = gameState.Title;
     //Don't show the player/boss information until the user clicks it
@@ -60,6 +63,8 @@ public class MySketch extends PApplet {
         startbutton = new button("images/title/start.png", this, 150, 450);
         endbutton = new button("images/title/exit.png", this, 900, 450); 
         title = new Title("images/title/titleScreen.png", this, startbutton, endbutton);
+        continuebutton = new button ("images/title/continue.png", this, 1000, 550);
+        Letter = new letter(this, "images/title/letter.png", continuebutton);
         
     }
     
@@ -85,7 +90,12 @@ public class MySketch extends PApplet {
                     showInfo = false;
                 }
                 break;
-        }
+                
+            case Mountain:
+                if (continuebutton.isClicked(mouseX, mouseY)){
+                    changeState(gameState.Tutorial);
+                }
+                }
     }
     
     /**
@@ -173,12 +183,12 @@ public class MySketch extends PApplet {
             case Opening:
                 Op.display();
                 if (text.finished){
-                    changeState(gameState.Tutorial);
+                    changeState(gameState.Mountain);
                 }
                 break;
                 
             case Mountain:
-                background(255);
+                Letter.display();
                 break;
                 
             case Tutorial:
