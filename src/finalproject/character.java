@@ -15,6 +15,7 @@ public class character {
     //Attributes
     public int x, y;
     protected String name;
+    protected final String defname = "Character";
     protected PApplet app;
     protected PImage image;
     protected int width, height;
@@ -29,6 +30,20 @@ public class character {
         this.image = app.loadImage(imagePath);
         this.width = image.width;
         this.height = image.height;
+    }
+    
+    public character(PApplet p, int x, int y, String imagePath){
+        this.app = p;
+        this.x = x;
+        this.y = y;
+        this.name = defname;
+        this.image = app.loadImage(imagePath);
+        this.width = image.width;
+        this.height = image.height;
+    }
+    
+    public void setName(String name){
+        this.name = name;
     }
     
     /**
@@ -81,7 +96,7 @@ public class character {
      */
     public void displayInfo(PApplet p){
         p.fill(0);
-        p.text("name: " + name, x, y - 20);
+        p.text("Name: " + name, x, y - 20);
     }
     
     

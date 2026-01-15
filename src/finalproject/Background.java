@@ -16,6 +16,7 @@ public class Background {
     private PImage [] images;
     private int size;
     private int imageIndex = 0;
+    private PImage image;
     
     
     
@@ -30,8 +31,17 @@ public class Background {
         }
     }
     
-    public void display(){
+    public Background(PApplet p, String imagePath){
+        this.app = p;
+        this.image = p.loadImage(imagePath);
+    }
+    
+    public void displayarr(){
         app.image(images[imageIndex], 0, 0);
+    }
+    
+    public void displayone(){
+        app.image(image, 0, 0);
     }
     
     public int getIndex(){

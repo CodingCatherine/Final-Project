@@ -31,4 +31,12 @@ public class Monkey extends character {
         numMonkeys ++;
     }
     
+    public int getScene(){
+        return scene;
+    }
+    
+    
+    
+    
+    
 }

@@ -17,6 +17,8 @@ import processing.core.PApplet;
 public class MySketch extends PApplet {
     //Initialize a player object
     private Player player;
+    private String playerName = "";
+    
     //Create an opening object to play the opening sequence
     private opening Op;
     //Create a Dialogue object for the opening dialogue
@@ -30,15 +32,19 @@ public class MySketch extends PApplet {
     
     private button continuebutton;
     private letter Letter;
+    private Background tutback;
+    
+    private Background charcreate;
+    
     
     //Set the game State of the beginning of the game
-    gameState State = gameState.Tutorial;
+    gameState State = gameState.Title;
     //Don't show the player/boss information until the user clicks it
     private boolean showInfo = false;
     //Flag for if the opening dialogue has finished (set false as it hasn't finished yet)
     public boolean finishedop = false;
     
-    private Background tutback;
+   
     
     /**
      * Allows us to change the settings of the PApplet
@@ -56,6 +62,8 @@ public class MySketch extends PApplet {
     public void setup(){
         //Set background colour
         background(255);
+        //Set Text size
+        textSize(20);
         //Instantiate a player object
         player = new Player(this, 0, 0, "Player", "images/idle/player1.png");
         //Instantiate a opening dialogue for the opening dialogue
@@ -65,10 +73,13 @@ public class MySketch extends PApplet {
         startbutton = new button("images/title/start.png", this, 150, 450);
         endbutton = new button("images/title/exit.png", this, 900, 450); 
         title = new Title("images/title/titleScreen.png", this, startbutton, endbutton);
+        
+        
         continuebutton = new button ("images/title/continue.png", this, 1000, 550);
         Letter = new letter(this, "images/title/letter.png", continuebutton);
         tutback = new Background(this, 5, "titleBackground","trial 1");
         
+        charcreate = new Background(this, "images/title/creation.png");      
     }
     
     /**
@@ -79,7 +90,7 @@ public class MySketch extends PApplet {
         switch (State){
             case Title:
                 if (startbutton.isClicked(mouseX, mouseY)){
-                    changeState(gameState.Opening);
+                    changeState(gameState.CharacterCreation);
                 }
                 else if(endbutton.isClicked(mouseX, mouseY)){
                     System.exit(0);
@@ -147,6 +158,19 @@ public class MySketch extends PApplet {
                         break;
                     }
                 break;
+                
+            case CharacterCreation:
+                if (keyCode == ENTER){
+                   changeState(gameState.Opening);
+                }
+                else if (keyCode == BACKSPACE){
+                    if (playerName.length() > 0){
+                        playerName = playerName.substring(0, playerName.length() -1);
+                    }
+                }
+                else if (keyCode != CODED){
+                playerName += key;
+            }
         }
     }
     
@@ -176,24 +200,25 @@ public class MySketch extends PApplet {
     }
     
     private void cycleBack(Background background){
-        background.display();
+        background.displayarr();
         if (player.x < -25 && background.getIndex() == 0){
             player.setX(-25);
         }
         else if (player.x < -25 && background.getIndex() != 0){
             background.goBack();
-            background.display();
+            background.displayarr();
             player.setX(1250);
         }
         else if (player.x > 1250&& background.getIndex() != (background.getSize()-1)){
             background.goNext();
-            background.display();
+            background.displayarr();
             player.setX(0);
         }
         else if (player.x > 1250 && background.getIndex() == (background.getSize()-1)){
             player.setX(1250);
         }
-    }    
+    } 
+ 
     /**
      * Draws to the screen
      */
@@ -216,7 +241,13 @@ public class MySketch extends PApplet {
                 break;
                 
             case CharacterCreation:
-                
+                charcreate.displayone();
+                fill(0);
+                textSize(30);
+                text("What is your name?", 700, 200);
+                text(playerName, 700, 250);
+                text("Click Enter to continue", 700, 300);
+                player.setName(playerName);
                 break;
                 
             case Tutorial:

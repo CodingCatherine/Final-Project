@@ -73,6 +73,7 @@ public class Player extends character{
         }
 
     }
+    
     /**
      * Updates the current image depending on the player's state so that it looks
      * like the image is moving (animating)
