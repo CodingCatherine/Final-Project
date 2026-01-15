@@ -17,15 +17,15 @@ public class Monkey extends character {
     private int scene;
     
     
-    public Monkey(PApplet p, int x, int y, String name, String imagePath, String text, int scene){
-        super(p,x,y,name,imagePath);
+    public Monkey(PApplet p, int x, int y, String name, String text, int scene){
+        super(p,x,y,name,"images/trial 1/Monkey.png");
         this.text = text;
         this.scene = scene;
         numMonkeys ++;
     }
     
-    public Monkey(PApplet p, int x, int y, String name, String imagePath, int scene){
-        super(p,x,y,name,imagePath);
+    public Monkey(PApplet p, int x, int y, String name, int scene){
+        super(p,x,y,name,"images/trial 1/Monkey.png");
         this.text = deftext;
         this.scene = scene;
         numMonkeys ++;
@@ -36,7 +36,8 @@ public class Monkey extends character {
     }
     
     
-    
-    
-    
+    @Override
+    public void draw(){
+        app.image(image, x, y);
+    }
 }

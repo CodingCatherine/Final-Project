@@ -160,6 +160,7 @@ public class Player extends character{
     /**
      * draws the specified object + it's animations to the screen
      */
+    @Override
     public void draw(){
         updateAnimation();
         

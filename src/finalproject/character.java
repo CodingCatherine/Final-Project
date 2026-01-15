@@ -99,6 +99,9 @@ public class character {
         p.text("Name: " + name, x, y - 20);
     }
     
+    public void draw(){
+        app.image(image, x, y);
+    }
     
     
     

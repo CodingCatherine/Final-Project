@@ -6,6 +6,9 @@ package finalproject;
 //import PApplet
 import java.io.File;
 import processing.core.PApplet;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.FileWriter;
 
 /**
  * MySketch class allows for us to add graphics and draw to the screen
@@ -35,6 +38,7 @@ public class MySketch extends PApplet {
     private Background tutback;
     
     private Background charcreate;
+    private File currPlay = new File ("currentPlayer.txt");
     
     
     //Set the game State of the beginning of the game
@@ -162,6 +166,7 @@ public class MySketch extends PApplet {
             case CharacterCreation:
                 if (keyCode == ENTER){
                    changeState(gameState.Opening);
+                   writeInfo(currPlay);
                 }
                 else if (keyCode == BACKSPACE){
                     if (playerName.length() > 0){
@@ -218,6 +223,22 @@ public class MySketch extends PApplet {
             player.setX(1250);
         }
     } 
+    
+    public void writeInfo(File file){
+        switch(State){
+            case Opening:
+                try{
+                    FileWriter write1 = new FileWriter(file, true); //Initialize filewriter
+                    PrintWriter output = new PrintWriter(write1); //Initialize printwriter
+                    output.println(playerName); 
+                    output.close(); //close printwriter
+            
+                //If exception is thrown print out an error code
+                }catch(IOException e){
+                    System.out.println("IO Error");
+                }
+        }
+    }
  
     /**
      * Draws to the screen
