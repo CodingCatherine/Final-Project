@@ -5,10 +5,12 @@
 package finalproject;
 //import PApplet
 import java.io.File;
+import java.io.FileNotFoundException;
 import processing.core.PApplet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.FileWriter;
+import java.util.Scanner;
 
 /**
  * MySketch class allows for us to add graphics and draw to the screen
@@ -228,7 +230,7 @@ public class MySketch extends PApplet {
         switch(State){
             case Opening:
                 try{
-                    FileWriter write1 = new FileWriter(file, true); //Initialize filewriter
+                    FileWriter write1 = new FileWriter(file, false); //Initialize filewriter
                     PrintWriter output = new PrintWriter(write1); //Initialize printwriter
                     output.println(playerName); 
                     output.close(); //close printwriter
@@ -238,6 +240,46 @@ public class MySketch extends PApplet {
                     System.out.println("IO Error");
                 }
         }
+    }
+    
+    public character[] loadCharacters(File file, int rows, int cols){
+        String [][] chars = new String [rows][cols];
+        //number to count the number of lines in the file
+        int num = 0;
+        try{
+            //Open the file for reading
+            Scanner read = new Scanner(file);
+            //Loop until there are no more lines in the file
+            while(read.hasNext()){
+                //Assign the current line to a string
+                String line = read.nextLine();
+                //Split the data wherever there are commas and put it into an array
+                String [] data = line.split(",");
+                //For loop to loop through all indices to ensure all information is transferred
+                for(int i = 0;i < data.length; i++){
+                    chars[num][i] = data[i].trim();
+                }
+            //go to the next row 
+            read.close();
+            num++;
+            } 
+        }catch(FileNotFoundException e){ //If the file is not found print out an error
+            System.out.println("Sorry! File not Found.");
+        }
+        
+        character [] characters = new character [cols];
+        
+        for (int i = 0; i < num; i++){
+            if (chars[i][0].equalsIgnoreCase("Monkey")){
+                if (chars [i][2].equalsIgnoreCase("no")){
+                    characters[i] = new Monkey(this, 0, 0, chars[i][1], Integer.parseInt(chars[i][3]));
+                }
+                else{
+                    characters[i] = new Monkey(this, 0, 0, chars[i][1], chars[i][2], Integer.parseInt(chars[i][3]));
+                }
+                }
+            }
+        return characters;
     }
  
     /**
@@ -273,6 +315,7 @@ public class MySketch extends PApplet {
                 
             case Tutorial:
                 cycleBack(tutback);
+                
                 movement(); // call on movement method
                 break;
                 
