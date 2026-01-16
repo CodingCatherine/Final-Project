@@ -35,6 +35,10 @@ public class Monkey extends character {
         return scene;
     }
     
+    public String getText(){
+        return text;
+    }
+    
     @Override
     public void draw(){
         app.image(image, x, y);

@@ -67,7 +67,7 @@ public class character {
      * @param other another player that you want to check if the current is colliding with
      * @return true if they are colliding false if they are not
      */
-    public boolean isCollidingWith (Player other){
+    public boolean isCollidingWith (character other){
         boolean isLeftOfOtherRight = x < other.x + other.width;
         boolean isRightOfOtherLeft = x + width > other.x;
         boolean isAboveOtherBottom = y < other.y + other.height;

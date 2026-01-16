@@ -34,7 +34,7 @@ public class openingDialogue extends Dialogue {
             app.image(Wukong, 350, 570);
         }
         
-        app.fill(255);
+        app.fill(0);
         app.textSize(20);
         app.text(text, 480, 600);
         app.text("Click 'f' to continue", 800, 680);

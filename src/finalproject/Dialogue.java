@@ -19,6 +19,7 @@ public class Dialogue {
     protected PApplet app;
     protected PImage box;
     protected File dia;
+    protected String text;
     private int words;
     
     protected String [][] lines;
@@ -61,7 +62,7 @@ public class Dialogue {
     }
     
     public void display(){
-        app.image(box, 50, 400);
+        app.image(box, 450, 560);
     }
     
     public void load(){

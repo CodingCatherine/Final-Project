@@ -1,6 +1,14 @@
-monkey, John, Hello, 0, 200
+monkey, Akashan, Akashan: Wukong has been captured!, 0, 100
+monkey, Mel, Mel: I heard he defeated all of the heavenly armies, 0, 400
+monkey, Akali, Akali: I heard he stole the fruits of immortality , 0, 900
 tree, Lemya, Apple, 0, 500
-monkey, Joe, no, 2, 1000
 tree, Neda, Pine, 1, 200
+monkey, Viego, Viego: I heard he rebelled against heaven for power, 1, 400
 tree, Tamkeen, Willow, 1, 800
-monkey, Bob, no, 1, 800
+monkey, Kayn, Kayn: I heard he stole secret artifacts, 1, 800
+monkey, Thresh, Thresh: I heard he destroyed parts of the palace, 2, 250
+tree, Amy, Birch, 2, 300
+tree, Alina, Dead, 2, 800
+monkey, Gwen, Gwen: I heard he was caught by the emperor, 2, 1000
+tree, Jessica, Spruce, 3, 200
+monkey, Nilah, no, 3, 200

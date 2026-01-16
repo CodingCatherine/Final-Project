@@ -49,6 +49,7 @@ public class MySketch extends PApplet {
     
     //Set the game State of the beginning of the game
     gameState State = gameState.Tutorial;
+    
     //Don't show the player/boss information until the user clicks it
     private boolean playershowInfo = false;
    
@@ -65,12 +66,9 @@ public class MySketch extends PApplet {
     //Flag for if the opening dialogue has finished (set false as it hasn't finished yet)
     public boolean finishedop = false;
     
+    private monkeySpeech monksp;
     
-    
-   
-    
-   
-    
+
     /**
      * Allows us to change the settings of the PApplet
      */
@@ -102,11 +100,14 @@ public class MySketch extends PApplet {
         
         continuebutton = new button ("images/title/continue.png", this, 1000, 550);
         Letter = new letter(this, "images/title/letter.png", continuebutton);
-        tutback = new Background(this, 3, "titleBackground","trial 1");
+        tutback = new Background(this, 4, "titleBackground","trial 1");
         
         charcreate = new Background(this, "images/title/creation.png"); 
-        tutorchars = loadCharacters(tutchars, 6, 5);
+        tutorchars = loadCharacters(tutchars, 14, 5);
         tut = new spawnChars(this, tutorchars, tutback);
+        
+        monksp = new monkeySpeech(this, "images/trial 1/monkeyIcon.png", tutorchars, player, tutback, "images/textbox/talkbox.png");
+        
     }
     
     /**
@@ -342,7 +343,7 @@ public class MySketch extends PApplet {
             }
         return characters;
     }
- 
+    
     /**
      * Draws to the screen
      */
@@ -382,13 +383,18 @@ public class MySketch extends PApplet {
                 }
                 else if (monkshowInfo){
                     Monkey monkeys = (Monkey)tutorchars[currentMonkey];
+                    if (monkeys.getScene() == tutback.getIndex()){
                     monkeys.displayInfo(this); 
+                    }
                 }
                 else if (treeshowInfo){
                     Tree tree = (Tree)tutorchars[currentTree];
+                    if (tree.getScene() == tutback.getIndex()){
                     tree.displayInfo(this);
+                    }
                 }
                 movement(); // call on movement method
+                monksp.display();
                 break;
                 
             case StageTwo:

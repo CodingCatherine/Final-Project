@@ -20,7 +20,7 @@ public class spawnChars {
         this.background = background;
     }
     
-    public void draw(){
+    public void displayCharacter (character[] characters){
         for (int i = 0; i < characters.length; i ++){
              if (characters[i] instanceof Monkey){
                  Monkey monkey = (Monkey) characters[i];
@@ -35,6 +35,9 @@ public class spawnChars {
                  }
              }
         }
+    }
+    public void draw(){
+        displayCharacter(characters);
     }
 }
     
