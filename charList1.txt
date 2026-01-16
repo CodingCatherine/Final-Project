@@ -1,3 +1,2 @@
-type, name, text, scene
-monkey, John, Hello, 1
-monkey, Bob, no, 2
+monkey, John, Hello, 0, 200
+monkey, Bob, no, 2, 800

@@ -43,12 +43,23 @@ public class MySketch extends PApplet {
     private File currPlay = new File ("currentPlayer.txt");
     
     
+    private spawnChars tut;
+    private File tutchars = new File ("charList1.txt");
+    private character[] tutorchars;
+    
     //Set the game State of the beginning of the game
-    gameState State = gameState.Title;
+    gameState State = gameState.Tutorial;
     //Don't show the player/boss information until the user clicks it
-    private boolean showInfo = false;
+    private boolean playershowInfo = false;
+   
+    private int currentMonkey = 0;
+    private boolean monkshowInfo = false;
+    private boolean clickedaMonkey = false;
     //Flag for if the opening dialogue has finished (set false as it hasn't finished yet)
     public boolean finishedop = false;
+    
+    
+   
     
    
     
@@ -85,7 +96,9 @@ public class MySketch extends PApplet {
         Letter = new letter(this, "images/title/letter.png", continuebutton);
         tutback = new Background(this, 5, "titleBackground","trial 1");
         
-        charcreate = new Background(this, "images/title/creation.png");      
+        charcreate = new Background(this, "images/title/creation.png"); 
+        tutorchars = loadCharacters(tutchars, 2, 5);
+        tut = new spawnChars(this, tutorchars, tutback);
     }
     
     /**
@@ -105,11 +118,24 @@ public class MySketch extends PApplet {
                 break;
             case Tutorial:
                 if(player.isClicked(mouseX,mouseY)){
-                    showInfo = !showInfo;
+                    playershowInfo = !playershowInfo;
                 }else{
-                    showInfo = false;
+                    playershowInfo = false;
                 }
-                break;
+                for (int i = 0; i < tutorchars.length; i ++){
+                    if (tutorchars[i] instanceof Monkey){
+                        Monkey monkey = (Monkey) tutorchars[i];
+                        if (monkey.isClicked(mouseX, mouseY)){
+                            currentMonkey = i;
+                            monkshowInfo = !monkshowInfo;
+                            clickedaMonkey = true;
+                        }else if (!clickedaMonkey){
+                            monkshowInfo = false;
+                        }
+                    }
+                    
+                }
+                break; 
                 
             case Mountain:
                 if (continuebutton.isClicked(mouseX, mouseY)){
@@ -260,9 +286,10 @@ public class MySketch extends PApplet {
                     chars[num][i] = data[i].trim();
                 }
             //go to the next row 
-            read.close();
             num++;
             } 
+        read.close();
+            
         }catch(FileNotFoundException e){ //If the file is not found print out an error
             System.out.println("Sorry! File not Found.");
         }
@@ -272,10 +299,10 @@ public class MySketch extends PApplet {
         for (int i = 0; i < num; i++){
             if (chars[i][0].equalsIgnoreCase("Monkey")){
                 if (chars [i][2].equalsIgnoreCase("no")){
-                    characters[i] = new Monkey(this, 0, 0, chars[i][1], Integer.parseInt(chars[i][3]));
+                    characters[i] = new Monkey(this, Integer.parseInt(chars[i][4]), 440, chars[i][1], Integer.parseInt(chars[i][3]));
                 }
                 else{
-                    characters[i] = new Monkey(this, 0, 0, chars[i][1], chars[i][2], Integer.parseInt(chars[i][3]));
+                    characters[i] = new Monkey(this, Integer.parseInt(chars[i][4]), 440, chars[i][1], chars[i][2], Integer.parseInt(chars[i][3]));
                 }
                 }
             }
@@ -315,7 +342,14 @@ public class MySketch extends PApplet {
                 
             case Tutorial:
                 cycleBack(tutback);
-                
+                tut.draw();
+                if (playershowInfo){
+                    player.displayInfo(this);
+                }
+                else if (monkshowInfo){
+                    Monkey monkeys = (Monkey)tutorchars[currentMonkey];
+                    monkeys.displayInfo(this);
+                }
                 movement(); // call on movement method
                 break;
                 
@@ -336,9 +370,6 @@ public class MySketch extends PApplet {
                   
         }        
         //Show info if the flag is tripped
-        if (showInfo){
-            player.displayInfo(this);
-        }
     }
     
 }

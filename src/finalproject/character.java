@@ -90,20 +90,14 @@ public class character {
         
     }
     
-    /**
-     * Displays the information of the player that the user has clicked
-     * @param p the PApplet of the selected player
-     */
-    public void displayInfo(PApplet p){
-        p.fill(0);
-        p.text("Name: " + name, x, y - 20);
-    }
     
     public void draw(){
         app.image(image, x, y);
     }
     
-    
-    
+    public void displayInfo(PApplet p){
+        p.fill(0);
+        p.text("Name: " + name, x, y - 20);
+    }
     
 }

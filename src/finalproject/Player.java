@@ -179,4 +179,14 @@ public class Player extends character{
         }
     }
     
+    /**
+     * Displays the information of the player that the user has clicked
+     * @param p the PApplet of the selected player
+     */
+    @Override
+    public void displayInfo(PApplet p){
+        p.fill(0);
+        p.text("Name: " + name, x, y - 20);
+    }
+    
 }
