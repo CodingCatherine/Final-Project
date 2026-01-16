@@ -55,8 +55,16 @@ public class MySketch extends PApplet {
     private int currentMonkey = 0;
     private boolean monkshowInfo = false;
     private boolean clickedaMonkey = false;
+    public int monkeysClicked = 0;
+    
+    private int currentTree = 0;
+    private boolean treeshowInfo = false;
+    private boolean clickedaTree = false;
+    public int treesClicked = 0;
+    
     //Flag for if the opening dialogue has finished (set false as it hasn't finished yet)
     public boolean finishedop = false;
+    
     
     
    
@@ -94,10 +102,10 @@ public class MySketch extends PApplet {
         
         continuebutton = new button ("images/title/continue.png", this, 1000, 550);
         Letter = new letter(this, "images/title/letter.png", continuebutton);
-        tutback = new Background(this, 5, "titleBackground","trial 1");
+        tutback = new Background(this, 3, "titleBackground","trial 1");
         
         charcreate = new Background(this, "images/title/creation.png"); 
-        tutorchars = loadCharacters(tutchars, 2, 5);
+        tutorchars = loadCharacters(tutchars, 6, 5);
         tut = new spawnChars(this, tutorchars, tutback);
     }
     
@@ -122,17 +130,39 @@ public class MySketch extends PApplet {
                 }else{
                     playershowInfo = false;
                 }
+                
+                clickedaMonkey = false;
+                clickedaTree = false;
+                
                 for (int i = 0; i < tutorchars.length; i ++){
                     if (tutorchars[i] instanceof Monkey){
                         Monkey monkey = (Monkey) tutorchars[i];
-                        if (monkey.isClicked(mouseX, mouseY)){
-                            currentMonkey = i;
-                            monkshowInfo = !monkshowInfo;
-                            clickedaMonkey = true;
-                        }else if (!clickedaMonkey){
+                        if (monkey.getScene() == tutback.getIndex()){
+                            if (monkey.isClicked(mouseX, mouseY)){
+                                currentMonkey = i;
+                                monkshowInfo = !monkshowInfo;
+                                clickedaMonkey = true;
+                                monkeysClicked ++;
+                            
+                            }else if (!clickedaMonkey){
                             monkshowInfo = false;
+                            }
                         }
                     }
+                    else if (tutorchars[i] instanceof Tree){
+                        Tree tree = (Tree) tutorchars[i];
+                        if (tree.getScene() == tutback.getIndex()){
+                            if (tree.isClicked(mouseX, mouseY)){
+                                currentTree = i;
+                                treeshowInfo = !treeshowInfo;
+                                clickedaTree = true;
+                                treesClicked ++;
+                            }
+                            else if (!clickedaTree){
+                                treeshowInfo = false;
+                            }
+                        }
+                }
                     
                 }
                 break; 
@@ -289,12 +319,13 @@ public class MySketch extends PApplet {
             num++;
             } 
         read.close();
+     
             
         }catch(FileNotFoundException e){ //If the file is not found print out an error
             System.out.println("Sorry! File not Found.");
         }
         
-        character [] characters = new character [cols];
+        character [] characters = new character [rows];
         
         for (int i = 0; i < num; i++){
             if (chars[i][0].equalsIgnoreCase("Monkey")){
@@ -305,6 +336,9 @@ public class MySketch extends PApplet {
                     characters[i] = new Monkey(this, Integer.parseInt(chars[i][4]), 440, chars[i][1], chars[i][2], Integer.parseInt(chars[i][3]));
                 }
                 }
+            else if (chars[i][0].equalsIgnoreCase("Tree")){
+                characters[i] = new Tree(this, Integer.parseInt(chars[i][4]), 230, chars[i][1], Integer.parseInt(chars[i][3]), chars[i][2]);
+            }
             }
         return characters;
     }
@@ -348,7 +382,11 @@ public class MySketch extends PApplet {
                 }
                 else if (monkshowInfo){
                     Monkey monkeys = (Monkey)tutorchars[currentMonkey];
-                    monkeys.displayInfo(this);
+                    monkeys.displayInfo(this); 
+                }
+                else if (treeshowInfo){
+                    Tree tree = (Tree)tutorchars[currentTree];
+                    tree.displayInfo(this);
                 }
                 movement(); // call on movement method
                 break;
@@ -358,9 +396,7 @@ public class MySketch extends PApplet {
                 
             case StageThree:
                 break;
-                
-            case StageFour:
-                break;
+               
                 
             case FreeingWukong:
                 break;

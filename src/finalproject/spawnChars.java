@@ -28,6 +28,12 @@ public class spawnChars {
                      app.image(monkey.image, monkey.x, monkey.y);
                  }
              }
+             else if (characters[i] instanceof Tree){
+                 Tree tree = (Tree) characters[i];
+                 if (tree.getScene() == background.getIndex()){
+                     app.image(tree.image, tree.x, tree.y);
+                 }
+             }
         }
     }
 }

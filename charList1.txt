@@ -1,2 +1,6 @@
 monkey, John, Hello, 0, 200
-monkey, Bob, no, 2, 800
+tree, Lemya, Apple, 0, 500
+monkey, Joe, no, 2, 1000
+tree, Neda, Pine, 1, 200
+tree, Tamkeen, Willow, 1, 800
+monkey, Bob, no, 1, 800
