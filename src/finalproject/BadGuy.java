@@ -18,6 +18,7 @@ enum BGStates{
     }
 public class BadGuy extends character{
     private BGStates state = BGStates.IDLE;
+    private int health;
     
     private PImage[] idleFrames;
     private PImage[] attackFrames;
@@ -25,13 +26,15 @@ public class BadGuy extends character{
     
     private int currentFrame = 0; // Holds the index of the current frame
     private int frameCounter = 0; // Holds the amount of time/frames the current frame has been drawn onto the screen
-    private int frameSpeed = 5; // Holds the amount of time/frames each frame in the animation should last
+    private int frameSpeed = 10; // Holds the amount of time/frames each frame in the animation should last
     
     private int attackSpeed = 20;
     private int attackCounter = 0;
     
-    public BadGuy(PApplet p, int x, int y, String name, String imagePath){
+    public BadGuy(PApplet p, int x, int y, String name, String imagePath, int health){
         super(p,x,y,name,imagePath);
+        
+        this.health = health;
         
         idleFrames = new PImage[16];
         for(int i = 1; i < 17; i++){
@@ -108,7 +111,21 @@ public class BadGuy extends character{
             state = BGStates.HIT;
             currentFrame = 0;
             frameCounter = 0;
+            health --;
         }
+    }
+    
+    public boolean isDead(){
+        boolean dead = false;
+        if (health <= 0){
+            dead = true;
+            System.out.println("dead....");
+        }
+        return dead;
+    }
+    
+    public int getCurrentFrame(){
+        return currentFrame;
     }
     
     

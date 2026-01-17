@@ -48,7 +48,7 @@ public class MySketch extends PApplet {
     private character[] tutorchars;
     
     //Set the game State of the beginning of the game
-    gameState State = gameState.Tutorial;
+    gameState State = gameState.Battle;
     
     //Don't show the player/boss information until the user clicks it
     private boolean playershowInfo = false;
@@ -67,6 +67,8 @@ public class MySketch extends PApplet {
     
     private Background batback;
     private BadGuy bad;
+    private int attackCooldown = 0;
+    private boolean bossdeath = false;
     
     //Flag for if the opening dialogue has finished (set false as it hasn't finished yet)
     public boolean finishedop = false;
@@ -114,7 +116,7 @@ public class MySketch extends PApplet {
         monksp = new monkeySpeech(this, "images/trial 1/monkeyIcon.png", tutorchars, player, tutback, "images/textbox/talkbox.png");
         
         batback = new Background(this, "images/battle/battleback.png");
-        bad = new BadGuy(this, 680, 220, "Boss", "images/badguy/idle/Idle1.png");
+        bad = new BadGuy(this, 680, 220, "Boss", "images/badguy/idle/Idle1.png", 2);
         
         threeBack = new Background(this, 4, "titleBackground", "trial 1");
         
@@ -256,11 +258,15 @@ public class MySketch extends PApplet {
                 break;
             
             case Battle:
-                if (key == 'g' || key == 'G'){
-                    player.isAttacking();
-                    System.out.println("Hit");
-                    bad.isHit();
-                }    
+                if (attackCooldown <= 0){
+                    if (key == 'g' || key == 'G'){
+                        player.isAttacking();
+                        bad.isHit();
+                        System.out.println("Hit");
+                        attackCooldown = 150;
+                        System.out.println(attackCooldown);
+                        }
+                    }    
         }
     }
     
@@ -459,9 +465,17 @@ public class MySketch extends PApplet {
                 break;
                 
             case Battle:
+                    if (attackCooldown > 0){
+                        attackCooldown --;
+                        System.out.println(attackCooldown);
+                    }
                 cycleBack1(batback);
                 bad.draw();
                 movement();
+                bossdeath = bad.isDead();
+                if (bossdeath && bad.getCurrentFrame() == 7){
+                    changeState(gameState.StageTwo);
+                }
                 break;
                
                 
