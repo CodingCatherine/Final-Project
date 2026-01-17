@@ -48,7 +48,7 @@ public class MySketch extends PApplet {
     private character[] tutorchars;
     
     //Set the game State of the beginning of the game
-    gameState State = gameState.Title;
+    gameState State = gameState.Tutorial;
     
     //Don't show the player/boss information until the user clicks it
     private boolean playershowInfo = false;
@@ -66,6 +66,7 @@ public class MySketch extends PApplet {
     private monkeySpeech monksp;
     
     private Background batback;
+    private BadGuy bad;
     
     //Flag for if the opening dialogue has finished (set false as it hasn't finished yet)
     public boolean finishedop = false;
@@ -113,7 +114,7 @@ public class MySketch extends PApplet {
         monksp = new monkeySpeech(this, "images/trial 1/monkeyIcon.png", tutorchars, player, tutback, "images/textbox/talkbox.png");
         
         batback = new Background(this, "images/battle/battleback.png");
-        
+        bad = new BadGuy(this, 680, 220, "Boss", "images/badguy/idle/Idle1.png");
         
         threeBack = new Background(this, 4, "titleBackground", "trial 1");
         
@@ -143,10 +144,12 @@ public class MySketch extends PApplet {
                 }else{
                     playershowInfo = false;
                 }
-                
-                if (arrow.isClicked(mouseX,mouseY)){
-                    writeInfo(currPlay);
-                    changeState(gameState.Battle);
+                if (tutback.getIndex() == 3){
+                    if (arrow.isClicked(mouseX,mouseY)){
+                        writeInfo(currPlay);
+                        player.setX(300);
+                        changeState(gameState.Battle);
+                    }
                 }
                 clickedaMonkey = false;
                 clickedaTree = false;
@@ -250,6 +253,14 @@ public class MySketch extends PApplet {
                 else if (keyCode != CODED){
                 playerName += key;
             }
+                break;
+            
+            case Battle:
+                if (key == 'g' || key == 'G'){
+                    player.isAttacking();
+                    System.out.println("Hit");
+                    bad.isHit();
+                }    
         }
     }
     
@@ -297,6 +308,18 @@ public class MySketch extends PApplet {
             player.setX(1250);
         }
     } 
+    
+    private void cycleBack1(Background background){
+        background.displayone();
+        if (player.x < -25){
+            player.setX(-25);
+        }
+        else if (player.x > 1250){
+            player.setX(1250);
+        }
+    } 
+    
+    
     
     public void writeInfo(File file){
         switch(State){
@@ -436,7 +459,9 @@ public class MySketch extends PApplet {
                 break;
                 
             case Battle:
-                batback.displayone();
+                cycleBack1(batback);
+                bad.draw();
+                movement();
                 break;
                
                 

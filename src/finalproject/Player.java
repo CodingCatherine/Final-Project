@@ -116,13 +116,17 @@ public class Player extends character{
                 
             //If player is attacking
             case ATTACK:
-                //Check if the current frame has been displayed for long enough
-                if (frameCounter >= frameSpeed) { //Display at a slower rate (it is repeated a lot)                    
+                if (frameCounter >= frameSpeed) {
+                    int previousFrame = currentFrame;
                     //Displays the next frame if the previous frame has been displayed for long enough
                     //If the program reaches the last frame it will loop to the beginning again
                     currentFrame = (currentFrame + 1) % AttackFrames.length;
                     //Set frame counter to 0 since the new frame has just been displayed
                     frameCounter = 0;
+                    
+                    if (currentFrame == 0 && previousFrame == AttackFrames.length -1){
+                        state = playerState.IDLE;
+                    }
                 }
                 break;
                 
@@ -148,6 +152,10 @@ public class Player extends character{
      * @param dx holds the value of the change in x
      */
     public void move (int dx){
+        
+        if (state == playerState.ATTACK){
+            return;
+        }
          x+= dx; //change the x
          
          isMoving = (dx != 0); //Change isMoving to true aslong as x or y is changing
@@ -169,16 +177,6 @@ public class Player extends character{
         y += dy;
     }
     
-    public void attack(boolean isAttacking){
-        if (isAttacking){
-            state = playerState.ATTACK;
-        }
-        else{
-            state = playerState.IDLE;
-        }
-        
-    }
-    
     /**
      * Change the y of the user
      * @param y the y we want to change the player to
@@ -194,6 +192,15 @@ public class Player extends character{
     public void setX(int x){
         this.x = x;
     }
+    
+    public void isAttacking(){
+        if (state != playerState.ATTACK){
+            state = playerState.ATTACK;
+            currentFrame = 0;
+            frameCounter = 0;
+        }
+    }
+    
     /**
      * draws the specified object + it's animations to the screen
      */
