@@ -5,7 +5,6 @@
 package finalproject;
 import processing.core.PApplet;
 import processing.core.PImage;
-import java.io.File;
 
 /**
  *
@@ -44,7 +43,7 @@ public class monkeySpeech{
                         app.image(dia, 450, 560);
                         app.fill(0);
                         app.textSize(20);
-                        app.text(currentDialogue, 480,600);
+                        app.text(currentDialogue, 465 ,600);
                     }
                 }
                 

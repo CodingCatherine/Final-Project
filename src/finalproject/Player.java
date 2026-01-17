@@ -12,7 +12,8 @@ import processing.core.PImage;
 enum playerState{
     IDLE, //Idle Animation
     WALKRIGHT, // Walk Right Animation
-    WALKLEFT // Walk Left Animation
+    WALKLEFT, // Walk Left Animation
+    ATTACK, //Attack Animation
 }
 /**
  *Player Class to create and hold player objects(who the user will control)
@@ -30,10 +31,12 @@ public class Player extends character{
     private PImage[] idleFrames;
     private PImage[] walkrightFrames;
     private PImage[] walkleftFrames;
+    private PImage[] AttackFrames;
     
     private int currentFrame = 0; // Holds the index of the current frame
     private int frameCounter = 0; // Holds the amount of time/frames the current frame has been drawn onto the screen
     private int frameSpeed = 5; // Holds the amount of time/frames each frame in the animation should last
+    
     private boolean isMoving = false; //Detects if the player is currently moving
     
     
@@ -71,6 +74,11 @@ public class Player extends character{
         for (int i = 1; i < 13; i++){
             walkleftFrames[i-1] = p.loadImage("images/right/playerright"+i+".png");
         }
+        
+        AttackFrames = new PImage [12];
+        for (int i = 1; i < 13; i ++){
+            AttackFrames[i-1] = p.loadImage("images/attack/attack"+i+".png");
+        }
 
     }
     
@@ -103,7 +111,21 @@ public class Player extends character{
                     //Set frame counter to 0 since the new frame has just been displayed
                     frameCounter = 0;
                 }
-                break;   
+                break;
+                
+                
+            //If player is attacking
+            case ATTACK:
+                //Check if the current frame has been displayed for long enough
+                if (frameCounter >= frameSpeed) { //Display at a slower rate (it is repeated a lot)                    
+                    //Displays the next frame if the previous frame has been displayed for long enough
+                    //If the program reaches the last frame it will loop to the beginning again
+                    currentFrame = (currentFrame + 1) % AttackFrames.length;
+                    //Set frame counter to 0 since the new frame has just been displayed
+                    frameCounter = 0;
+                }
+                break;
+                
             //If player is idle (default)
             case IDLE:
                 //Check if the current frame has been displayed for long enough
@@ -117,6 +139,7 @@ public class Player extends character{
                 break;
                 
         }
+        
                 
     }
     
@@ -140,6 +163,20 @@ public class Player extends character{
          }
                  
          
+    }
+    
+    public void jump (int dy){
+        y += dy;
+    }
+    
+    public void attack(boolean isAttacking){
+        if (isAttacking){
+            state = playerState.ATTACK;
+        }
+        else{
+            state = playerState.IDLE;
+        }
+        
     }
     
     /**
@@ -175,6 +212,10 @@ public class Player extends character{
                 
             case IDLE:
                 app.image(idleFrames[currentFrame], x, y);
+                break;
+                
+            case ATTACK:
+                app.image(AttackFrames[currentFrame], x, y);
                 break;
         }
     }

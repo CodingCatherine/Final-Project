@@ -10,9 +10,15 @@ import processing.core.PApplet;
  *
  * @author Notak
  */
-public class Wukong extends character {
-    public Wukong(PApplet p, int x, int y, String name, String imagePath){
-        super(p,x,y,name,imagePath);
+public class Chest extends button{
+    private String type;
+    
+    
+    public Chest(String ImagePath, PApplet p, int x, int y, String type){
+        super(ImagePath, p, x, y);
+        this.type = type;
     }
+    
+    
     
 }

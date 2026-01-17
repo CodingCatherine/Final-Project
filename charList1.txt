@@ -12,3 +12,4 @@ tree, Alina, Dead, 2, 800
 monkey, Gwen, Gwen: I heard he was caught by the emperor, 2, 1000
 tree, Jessica, Spruce, 3, 200
 monkey, Nilah, no, 3, 200
+monkey, Jayce, Jayce: The Guardian is here. Click the arrow to proceed, 3, 700

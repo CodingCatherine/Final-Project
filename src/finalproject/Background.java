@@ -48,6 +48,10 @@ public class Background {
        return imageIndex;
     }
     
+    public void setIndex(int index){
+        this.imageIndex = index;
+    }
+    
     public int getSize(){
         return images.length;
     }

@@ -48,11 +48,12 @@ public class MySketch extends PApplet {
     private character[] tutorchars;
     
     //Set the game State of the beginning of the game
-    gameState State = gameState.Tutorial;
+    gameState State = gameState.Title;
     
     //Don't show the player/boss information until the user clicks it
     private boolean playershowInfo = false;
    
+    private button arrow;
     private int currentMonkey = 0;
     private boolean monkshowInfo = false;
     private boolean clickedaMonkey = false;
@@ -62,11 +63,15 @@ public class MySketch extends PApplet {
     private boolean treeshowInfo = false;
     private boolean clickedaTree = false;
     public int treesClicked = 0;
+    private monkeySpeech monksp;
+    
+    private Background batback;
     
     //Flag for if the opening dialogue has finished (set false as it hasn't finished yet)
     public boolean finishedop = false;
     
-    private monkeySpeech monksp;
+   
+    private Background threeBack;
     
 
     /**
@@ -97,16 +102,23 @@ public class MySketch extends PApplet {
         endbutton = new button("images/title/exit.png", this, 900, 450); 
         title = new Title("images/title/titleScreen.png", this, startbutton, endbutton);
         
-        
         continuebutton = new button ("images/title/continue.png", this, 1000, 550);
         Letter = new letter(this, "images/title/letter.png", continuebutton);
         tutback = new Background(this, 4, "titleBackground","trial 1");
         
+        arrow = new button("images/trial 1/arrow.png", this, 1100, 350);
         charcreate = new Background(this, "images/title/creation.png"); 
-        tutorchars = loadCharacters(tutchars, 14, 5);
+        tutorchars = loadCharacters(tutchars, 15, 5);
         tut = new spawnChars(this, tutorchars, tutback);
-        
         monksp = new monkeySpeech(this, "images/trial 1/monkeyIcon.png", tutorchars, player, tutback, "images/textbox/talkbox.png");
+        
+        batback = new Background(this, "images/battle/battleback.png");
+        
+        
+        threeBack = new Background(this, 4, "titleBackground", "trial 1");
+        
+        
+        
         
     }
     
@@ -132,6 +144,10 @@ public class MySketch extends PApplet {
                     playershowInfo = false;
                 }
                 
+                if (arrow.isClicked(mouseX,mouseY)){
+                    writeInfo(currPlay);
+                    changeState(gameState.Battle);
+                }
                 clickedaMonkey = false;
                 clickedaTree = false;
                 
@@ -181,17 +197,16 @@ public class MySketch extends PApplet {
     public void movement(){
         //sets an int for the change in x
         int dx = 0;
-        
         if (keyPressed){
-            switch (key) {
-                //If the user chooses to move left "a" dx = -3 (moving left) 
-                case 'a':
-                    dx = -4;
-                    break;
-                //If the user chooses to move right "d" dx = 3 (moving right)
-                case 'd':
-                    dx = 4;
-                    break;
+        switch (key) {
+            //If the user chooses to move left "a" dx = -3 (moving left) 
+            case 'a':
+            dx = -11;
+            break;
+            //If the user chooses to move right "d" dx = 3 (moving right)
+            case 'd':
+            dx = 11;
+            break;
             }
         }
         
@@ -248,7 +263,7 @@ public class MySketch extends PApplet {
         CharacterCreation,
         Tutorial,
         StageTwo,
-        StageThree,
+        Battle,
         StageFour,
         FreeingWukong, 
         End,
@@ -296,6 +311,20 @@ public class MySketch extends PApplet {
                 }catch(IOException e){
                     System.out.println("IO Error");
                 }
+                break;
+                
+            case Tutorial:
+                try{
+                    FileWriter write1 = new FileWriter(file, true); //Initialize filewriter
+                    PrintWriter output = new PrintWriter(write1); //Initialize printwriter
+                    output.println(monkeysClicked); 
+                    output.println(treesClicked);
+                    output.close(); //close printwriter
+                //If exception is thrown print out an error code
+                }catch(IOException e){
+                    System.out.println("IO Error");
+                }
+                break;
         }
     }
     
@@ -393,14 +422,21 @@ public class MySketch extends PApplet {
                     tree.displayInfo(this);
                     }
                 }
-                movement(); // call on movement method
+                
+                movement();// call on movement method
+                if (tutback.getIndex() == 3){
+                    arrow.display();
+                }
                 monksp.display();
                 break;
                 
             case StageTwo:
+                cycleBack(threeBack);
+                movement();
                 break;
                 
-            case StageThree:
+            case Battle:
+                batback.displayone();
                 break;
                
                 
