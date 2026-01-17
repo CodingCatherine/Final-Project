@@ -18,7 +18,6 @@ public class monkeySpeech{
     private String currentDialogue = "";
     private Background background;
     private PImage dia;
-    private String boxPath;
 
     
     public monkeySpeech(PApplet p, String monkeyPath, character [] characters, character player, Background background, String boxPath){
@@ -27,7 +26,6 @@ public class monkeySpeech{
         this.characters = characters;
         this.player = player;
         this.background = background;
-        this.boxPath = boxPath;
         
         dia = app.loadImage(boxPath); 
     }

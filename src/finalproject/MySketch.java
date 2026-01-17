@@ -48,7 +48,7 @@ public class MySketch extends PApplet {
     private character[] tutorchars;
     
     //Set the game State of the beginning of the game
-    gameState State = gameState.Battle;
+    gameState State = gameState.Tutorial;
     
     //Don't show the player/boss information until the user clicks it
     private boolean playershowInfo = false;
@@ -65,10 +65,21 @@ public class MySketch extends PApplet {
     public int treesClicked = 0;
     private monkeySpeech monksp;
     
+    private Background batbackdia1;
+    private Background batbackdia2;
+    
+    private int batcounter = 0;
+    
     private Background batback;
     private BadGuy bad;
     private int attackCooldown = 0;
     private boolean bossdeath = false;
+    
+    private bossSpeech bosssp;
+    private button spare;
+    private button nospare;
+    private boolean finished;
+    private boolean spared;
     
     //Flag for if the opening dialogue has finished (set false as it hasn't finished yet)
     public boolean finishedop = false;
@@ -115,8 +126,17 @@ public class MySketch extends PApplet {
         tut = new spawnChars(this, tutorchars, tutback);
         monksp = new monkeySpeech(this, "images/trial 1/monkeyIcon.png", tutorchars, player, tutback, "images/textbox/talkbox.png");
         
+        batbackdia1 = new Background (this, "images/battle/batdia1.png");
+        batbackdia2 = new Background (this, "images/battle/batdia2.png");
+                
+       
         batback = new Background(this, "images/battle/battleback.png");
         bad = new BadGuy(this, 680, 220, "Boss", "images/badguy/idle/Idle1.png", 2);
+        
+        bosssp = new bossSpeech(this);
+        spare = new button ("images/badguy/spare.png", this, 100, 200);
+        nospare = new button ("images/badguy/nospare.png", this, 1000, 200);
+        
         
         threeBack = new Background(this, 4, "titleBackground", "trial 1");
         
@@ -150,7 +170,7 @@ public class MySketch extends PApplet {
                     if (arrow.isClicked(mouseX,mouseY)){
                         writeInfo(currPlay);
                         player.setX(300);
-                        changeState(gameState.Battle);
+                        changeState(gameState.cutBat);
                     }
                 }
                 clickedaMonkey = false;
@@ -193,7 +213,28 @@ public class MySketch extends PApplet {
                 if (continuebutton.isClicked(mouseX, mouseY)){
                     changeState(gameState.Tutorial);
                 }
+                break;
+            
+            case ChooseBoss:
+                if (spare.isClicked(mouseX, mouseY)){
+                    spared = true;
+                    writeInfo(currPlay);
+                    player.setX(10);
+                    changeState(gameState.StageTwo);
+                    
+                    
                 }
+                else if (nospare.isClicked(mouseX, mouseY)){
+                    spared = false;
+                    writeInfo(currPlay);
+                    player.setX(10);
+                    changeState(gameState.StageTwo);
+                }
+                break;
+        }
+        
+        
+        
     }
     
     /**
@@ -266,7 +307,19 @@ public class MySketch extends PApplet {
                         attackCooldown = 150;
                         System.out.println(attackCooldown);
                         }
-                    }    
+                    }
+                break;
+                
+                
+            case ChooseBoss:
+                switch(key){
+                    //When F is pressed call on the method to go to the next line
+                    case 'f':
+                    case 'F':
+                        bosssp.goNext();
+                        break;
+                    }
+                break;    
         }
     }
     
@@ -279,10 +332,10 @@ public class MySketch extends PApplet {
         Mountain,
         CharacterCreation,
         Tutorial,
-        StageTwo,
+        cutBat,
         Battle,
-        StageFour,
-        FreeingWukong, 
+        ChooseBoss,
+        StageTwo,
         End,
         
     }
@@ -354,6 +407,19 @@ public class MySketch extends PApplet {
                     System.out.println("IO Error");
                 }
                 break;
+                
+            case ChooseBoss:
+                try{
+                    FileWriter write1 = new FileWriter(file, true); //Initialize filewriter
+                    PrintWriter output = new PrintWriter(write1); //Initialize printwriter
+                    output.println(spared); 
+                    output.close(); //close printwriter
+                //If exception is thrown print out an error code
+                }catch(IOException e){
+                    System.out.println("IO Error");
+                }
+                break;
+                
         }
     }
     
@@ -458,10 +524,21 @@ public class MySketch extends PApplet {
                 }
                 monksp.display();
                 break;
-                
-            case StageTwo:
-                cycleBack(threeBack);
-                movement();
+
+            case cutBat:
+                System.out.println(batcounter);
+                if (batcounter < 100){
+                    batcounter++;
+                    batbackdia1.displayone();
+                }
+                else if (batcounter < 200){
+                    batcounter += 2;
+                    batbackdia2.displayone();
+                }
+                else if (batcounter >= 200){
+                    changeState(gameState.Battle);
+                }
+
                 break;
                 
             case Battle:
@@ -474,19 +551,25 @@ public class MySketch extends PApplet {
                 movement();
                 bossdeath = bad.isDead();
                 if (bossdeath && bad.getCurrentFrame() == 7){
-                    changeState(gameState.StageTwo);
+                    changeState(gameState.ChooseBoss);
                 }
                 break;
-               
-                
-            case FreeingWukong:
-                break;
+            
+            case ChooseBoss:
+                cycleBack1(batback);
+                bad.draw();
+                player.draw();
+                bosssp.display();
+                finished = bosssp.isFinished();
+                if (finished){
+                    spare.display();
+                    nospare.display();
+                }
                 
             case End:
                 break;
                   
         }        
-        //Show info if the flag is tripped
     }
     
 }
