@@ -35,6 +35,9 @@ public class MySketch extends PApplet {
     private button startbutton;
     private button endbutton;
     
+    private Background controls;
+    private button contbut;
+    
     private button continuebutton;
     private letter Letter;
     private Background tutback;
@@ -91,8 +94,9 @@ public class MySketch extends PApplet {
     //Flag for if the opening dialogue has finished (set false as it hasn't finished yet)
     public boolean finishedop = false;
     
-   
-    private Background threeBack;
+    private Background goodEnding;
+    private Background badEnding;
+    
     
 
     /**
@@ -123,6 +127,9 @@ public class MySketch extends PApplet {
         endbutton = new button("images/title/exit.png", this, 900, 450); 
         title = new Title("images/title/titleScreen.png", this, startbutton, endbutton);
         
+        controls = new Background (this, "images/controls.png");
+        contbut = new button ("images/title/continue.png", this, 1000, 550);
+        
         continuebutton = new button ("images/title/continue.png", this, 1000, 550);
         Letter = new letter(this, "images/title/letter.png", continuebutton);
         tutback = new Background(this, 4, "titleBackground","trial 1");
@@ -143,12 +150,13 @@ public class MySketch extends PApplet {
         bosssp = new bossSpeech(this);
         spare = new button ("images/badguy/spare.png", this, 100, 200);
         nospare = new button ("images/badguy/nospare.png", this, 1000, 200);
-        
-        
-        threeBack = new Background(this, 4, "titleBackground", "trial 1");
-        
+
         death = new Background (this, "images/death.png");
         moveon = new button ("images/title/continue.png", this, 1000, 400);
+        
+        goodEnding = new Background(this, 50, "goodEnding", "good");
+        badEnding = new Background(this, 50, "badEnding", "bad");
+        
     }
     
     /**
@@ -159,12 +167,18 @@ public class MySketch extends PApplet {
         switch (State){
             case Title:
                 if (startbutton.isClicked(mouseX, mouseY)){
-                    changeState(gameState.CharacterCreation);
+                    changeState(gameState.Controls);
                 }
                 else if(endbutton.isClicked(mouseX, mouseY)){
                     System.exit(0);
                 }
                 
+                break;
+                
+            case Controls:
+                if (contbut.isClicked(mouseX, mouseY)){
+                    changeState(gameState.CharacterCreation);
+                }
                 break;
             case Tutorial:
                 if(player.isClicked(mouseX,mouseY)){
@@ -191,6 +205,7 @@ public class MySketch extends PApplet {
                                 monkshowInfo = !monkshowInfo;
                                 clickedaMonkey = true;
                                 monkeysClicked ++;
+                                
                             
                             }else if (!clickedaMonkey){
                             monkshowInfo = false;
@@ -227,7 +242,7 @@ public class MySketch extends PApplet {
                     spared = true;
                     writeInfo(currPlay);
                     player.setX(10);
-                    changeState(gameState.StageTwo);
+                    changeState(gameState.GoodEnding);
                     
                     
                 }
@@ -235,7 +250,7 @@ public class MySketch extends PApplet {
                     spared = false;
                     writeInfo(currPlay);
                     player.setX(10);
-                    changeState(gameState.StageTwo);
+                    changeState(gameState.BadEnding);
                 }
                 break;
                 
@@ -276,10 +291,6 @@ public class MySketch extends PApplet {
         player.setY(370);
         player.draw(); // Draw player after movement
         
-        //Collide Checker get rid of this when game is done
-        noFill();
-        stroke(255,0,0);
-        rect(player.x,player.y, player.getWidth(), player.getHeight());
     }
     
     /**
@@ -344,15 +355,17 @@ public class MySketch extends PApplet {
      */
     enum gameState{
         Title,
+        Controls,
+        CharacterCreation,
         Opening,
         Mountain,
-        CharacterCreation,
         Tutorial,
         cutBat,
         Battle,
         Death,
         ChooseBoss,
-        StageTwo,
+        BadEnding,
+        GoodEnding,
         End,
         
     }
@@ -505,17 +518,12 @@ public class MySketch extends PApplet {
             case Title:
                 title.displayTitle();
                 break;
-            
-            case Opening:
-                Op.display();
-                if (text.finished){
-                    changeState(gameState.Mountain);
-                }
+                
+            case Controls:
+                controls.displayone();
+                contbut.display();
                 break;
                 
-            case Mountain:
-                Letter.display();
-                break;
                 
             case CharacterCreation:
                 charcreate.displayone();
@@ -527,6 +535,18 @@ public class MySketch extends PApplet {
                 player.setName(playerName);
                 break;
                 
+            
+            case Opening:
+                Op.display();
+                if (text.finished){
+                    changeState(gameState.Mountain);
+                }
+                break;
+                
+            case Mountain:
+                Letter.display();
+                break;
+
             case Tutorial:
                 cycleBack(tutback);
                 tut.draw();
@@ -618,7 +638,16 @@ public class MySketch extends PApplet {
             case Death:
                 death.displayone();
                 moveon.display();
+                break;
                 
+            case GoodEnding:
+                goodEnding.displayEnding();
+                break;
+                
+            case BadEnding:
+                badEnding.displayEnding();
+                break;
+               
             case End:
                 break;
                   

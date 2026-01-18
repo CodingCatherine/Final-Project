@@ -18,6 +18,9 @@ public class Background {
     private int imageIndex = 0;
     private PImage image;
     
+    private int currentFrame = 0; // Holds the index of the current frame
+    private int frameCounter = 0; // Holds the amount of time/frames the current frame has been drawn onto the screen
+    private int frameSpeed = 10; // Holds the amount of time/frames each frame in the animation should last
     
     
     public Background(PApplet p, int size, String title, String Scene){
@@ -38,6 +41,24 @@ public class Background {
     
     public void displayarr(){
         app.image(images[imageIndex], 0, 0);
+    }
+    
+    public void animate(){
+        if (currentFrame < images.length - 1){
+            frameCounter ++;
+            
+            if (frameCounter >= frameSpeed){
+                currentFrame ++;
+                frameCounter = 0; 
+            }
+        }else{
+            currentFrame = 49;
+        }
+    }
+    
+    public void displayEnding(){
+        animate();
+        app.image(images[currentFrame], 0, 0);
     }
     
     public void displayone(){
