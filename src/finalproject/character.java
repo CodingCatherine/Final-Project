@@ -94,7 +94,7 @@ public class character {
     public void draw(){
         app.image(image, x, y);
     }
-    
+
     public void displayInfo(PApplet p){
         p.fill(0);
         p.text("Name: " + name, x, y - 20);

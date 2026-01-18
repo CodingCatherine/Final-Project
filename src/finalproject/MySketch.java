@@ -76,12 +76,16 @@ public class MySketch extends PApplet {
     private boolean bossdeath = false;
     
     private int bossCooldown = 100;
+    private int damageCooldown = 100;
     
     private bossSpeech bosssp;
     private button spare;
     private button nospare;
     private boolean finished;
     private boolean spared;
+    
+    private Background death;
+    private button moveon;
     
     
     //Flag for if the opening dialogue has finished (set false as it hasn't finished yet)
@@ -110,7 +114,7 @@ public class MySketch extends PApplet {
         //Set Text size
         textSize(20);
         //Instantiate a player object
-        player = new Player(this, 0, 0, "Player", "images/idle/player1.png");
+        player = new Player(this, 0, 0, "Player", "images/idle/player1.png", 12);
         //Instantiate a opening dialogue for the opening dialogue
         text = new openingDialogue(this, "images/textbox/talkbox.png", opfile, 5, "images/textbox/playericon.png", "images/textbox/wukongicon.png");
         //Instantiate the opening animations
@@ -143,9 +147,8 @@ public class MySketch extends PApplet {
         
         threeBack = new Background(this, 4, "titleBackground", "trial 1");
         
-        
-        
-        
+        death = new Background (this, "images/death.png");
+        moveon = new button ("images/title/continue.png", this, 1000, 400);
     }
     
     /**
@@ -215,6 +218,7 @@ public class MySketch extends PApplet {
             case Mountain:
                 if (continuebutton.isClicked(mouseX, mouseY)){
                     changeState(gameState.Tutorial);
+                    System.out.println("Click the Monkeys and Trees to learn more about them!");
                 }
                 break;
             
@@ -234,6 +238,15 @@ public class MySketch extends PApplet {
                     changeState(gameState.StageTwo);
                 }
                 break;
+                
+            case Death:
+                if (moveon.isClicked(mouseX, mouseY)){
+                    player.setX(10);
+                    writeInfo(currPlay);
+                    player.resetHealth();
+                    bad.resetHealth();
+                    changeState(gameState.Tutorial);
+                }
         }
         
         
@@ -307,7 +320,6 @@ public class MySketch extends PApplet {
                         if (key == 'g' || key == 'G'){
                             player.isAttacking();
                             bad.isHit();
-                            System.out.println("Hit");
                             attackCooldown = 150;
                             }
                         }
@@ -338,6 +350,7 @@ public class MySketch extends PApplet {
         Tutorial,
         cutBat,
         Battle,
+        Death,
         ChooseBoss,
         StageTwo,
         End,
@@ -424,6 +437,17 @@ public class MySketch extends PApplet {
                 }
                 break;
                 
+            case Death:
+                try{
+                    FileWriter write1 = new FileWriter(file, true); //Initialize filewriter
+                    PrintWriter output = new PrintWriter(write1); //Initialize printwriter
+                    output.println("Died"); 
+                    output.close(); //close printwriter
+                //If exception is thrown print out an error code
+                }catch(IOException e){
+                    System.out.println("IO Error");
+                }
+                break;
         }
     }
     
@@ -530,7 +554,6 @@ public class MySketch extends PApplet {
                 break;
 
             case cutBat:
-                System.out.println(batcounter);
                 if (batcounter < 100){
                     batcounter++;
                     batbackdia1.displayone();
@@ -540,12 +563,20 @@ public class MySketch extends PApplet {
                     batbackdia2.displayone();
                 }
                 else if (batcounter >= 200){
+                    System.out.println("Click 'g' to attack");
                     changeState(gameState.Battle);
                 }
 
                 break;
                 
             case Battle:
+                damageCooldown --;
+                if (damageCooldown <= 0){
+                    if (bad.isCollidingWith(player)){
+                        player.hit();
+                        damageCooldown = 100;
+                    }
+                }
                 bossCooldown ++;
                 if (attackCooldown > 0){
                     attackCooldown --;
@@ -563,6 +594,12 @@ public class MySketch extends PApplet {
                 if (bossdeath && bad.getCurrentFrame() == 7){
                     changeState(gameState.ChooseBoss);
                 }
+                if (player.getHealth() == 0){
+                   changeState(gameState.Death);
+                }
+                player.displayInfo(this);
+                bad.displayInfo(this);
+
                 break;
             
             case ChooseBoss:
@@ -575,6 +612,12 @@ public class MySketch extends PApplet {
                     spare.display();
                     nospare.display();
                 }
+                break;
+                
+                
+            case Death:
+                death.displayone();
+                moveon.display();
                 
             case End:
                 break;

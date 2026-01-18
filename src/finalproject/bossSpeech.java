@@ -15,9 +15,9 @@ public class bossSpeech {
     private PApplet app;
     private String [] words = new String []{
         "It seems that I have underestimated you.",
-        "You are stronger than I thought",
-        "You are also nothing like your master",
-        "I admit that I was wrong", 
+        "You are stronger than I thought.",
+        "You are also nothing like your master.",
+        "I admit that I was wrong.", 
         "Could you spare me this one time?"
     };
     

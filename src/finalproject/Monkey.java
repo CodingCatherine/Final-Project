@@ -25,7 +25,7 @@ public class Monkey extends character {
     }
     
     public Monkey(PApplet p, int x, int y, String name, int scene){
-        super(p,x,y,name,"images/trial 1/Monkey.png");
+        super(p,x,y,name,"images/trial 1/hehe.png");
         this.text = deftext;
         this.scene = scene;
         numMonkeys ++;
@@ -37,6 +37,10 @@ public class Monkey extends character {
     
     public String getText(){
         return text;
+    }
+    
+    public String getName(){
+        return name;
     }
     
     @Override

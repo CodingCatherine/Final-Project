@@ -28,6 +28,9 @@ public class Player extends character{
     
     //Animation 
     //Arrays to hold the images required for each animation
+    private int health;
+    private final int startingHealth;
+    
     private PImage[] idleFrames;
     private PImage[] walkrightFrames;
     private PImage[] walkleftFrames;
@@ -48,8 +51,10 @@ public class Player extends character{
      * @param name holds the name of the player
      * @param imagePath holds the current image of the player (animations)
      */
-    public Player(PApplet p, int x, int y, String name, String imagePath){
+    public Player(PApplet p, int x, int y, String name, String imagePath, int health){
         super(p,x,y,name,imagePath);
+        this.health = health;
+        this.startingHealth = health;
         
         //Animation
         //Import the required images and put them into their respective arrays
@@ -86,6 +91,14 @@ public class Player extends character{
      * Updates the current image depending on the player's state so that it looks
      * like the image is moving (animating)
      */
+    
+    public int getHealth(){
+        return health;
+    }
+    
+    public void hit(){
+        health--;
+    }
     private void updateAnimation(){
         frameCounter++; //Add one to the time
         
@@ -201,6 +214,10 @@ public class Player extends character{
         }
     }
     
+    public void resetHealth(){
+        health = startingHealth;
+    }
+    
     /**
      * draws the specified object + it's animations to the screen
      */
@@ -235,6 +252,7 @@ public class Player extends character{
     public void displayInfo(PApplet p){
         p.fill(0);
         p.text("Name: " + name, x, y - 20);
+        p.text("Health: " + health, x, y);
     }
     
 }

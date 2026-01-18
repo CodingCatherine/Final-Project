@@ -19,6 +19,7 @@ enum BGStates{
 public class BadGuy extends character{
     private BGStates state = BGStates.IDLE;
     private int health;
+    private final int startingHealth;
     
     private boolean attacking = false;
     private float dropSpeed = 10;
@@ -38,6 +39,7 @@ public class BadGuy extends character{
         super(p,x,y,name,imagePath);
         
         this.health = health;
+        this.startingHealth = health;
         
         idleFrames = new PImage[16];
         for(int i = 1; i < 17; i++){
@@ -94,6 +96,10 @@ public class BadGuy extends character{
         }
     }
     
+    public void resetHealth(){
+        health = startingHealth;
+    }
+    
     public void Attack(){
         state = BGStates.ATTACK;
         x = (int) app.random(0, 1000);
@@ -141,5 +147,12 @@ public class BadGuy extends character{
                 app.image(idleFrames[0], x, y);
                 
         }
+    }
+    
+    @Override
+    public void displayInfo(PApplet p){
+        p.fill(0);
+        p.text("Name: " + name, x, y - 20);
+        p.text("Health: " + health, x, y);
     }
 }
