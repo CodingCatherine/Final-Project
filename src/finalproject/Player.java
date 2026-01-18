@@ -18,18 +18,18 @@ enum playerState{
 /**
  *Player Class to create and hold player objects(who the user will control)
  * @author Catherine
- * @since 2026-01-06
- * @version 2
+ * @since 2026-01-18
  */
 public class Player extends character{
     
     //For animations we also require a state so the program knows which animation we need
     private playerState state = playerState.IDLE; // Set the current player state to idle (default) 
     
+    private int health; //current health of the player 
+    private final int startingHealth; //the starting health of the user
+    
     //Animation 
     //Arrays to hold the images required for each animation
-    private int health;
-    private final int startingHealth;
     
     private PImage[] idleFrames;
     private PImage[] walkrightFrames;
@@ -40,7 +40,6 @@ public class Player extends character{
     private int frameCounter = 0; // Holds the amount of time/frames the current frame has been drawn onto the screen
     private int frameSpeed = 5; // Holds the amount of time/frames each frame in the animation should last
     
-    private boolean isMoving = false; //Detects if the player is currently moving
     
     
     /**
@@ -50,9 +49,12 @@ public class Player extends character{
      * @param y holds the y value/coordinate of the player
      * @param name holds the name of the player
      * @param imagePath holds the current image of the player (animations)
+     * @param health holds the user's current health
      */
     public Player(PApplet p, int x, int y, String name, String imagePath, int health){
+        //Call on parent and assign attributes 
         super(p,x,y,name,imagePath);
+        //Set health
         this.health = health;
         this.startingHealth = health;
         
@@ -61,6 +63,7 @@ public class Player extends character{
         
         //Idle Animation 
         idleFrames = new PImage[12]; //12 images for the animation
+        //Load images 
         for (int i = 1; i < 7; i++){
             idleFrames[i-1] = p.loadImage("images/idle/player"+i+".png");
         }
@@ -69,18 +72,22 @@ public class Player extends character{
         }
         
         //Walking right Animation
-        walkrightFrames = new PImage[12];
+        walkrightFrames = new PImage[12]; //12 images for the animation
+        //Load images 
         for (int i = 1; i < 13; i++){
             walkrightFrames[i-1] = p.loadImage("images/left/playerleft"+i+".png");
         }
         
         //Walking Left Animation
-        walkleftFrames = new PImage [12];
+        walkleftFrames = new PImage [12]; //12 images for the animation
+        //Load images 
         for (int i = 1; i < 13; i++){
             walkleftFrames[i-1] = p.loadImage("images/right/playerright"+i+".png");
         }
         
-        AttackFrames = new PImage [12];
+        //Attacking animations 
+        AttackFrames = new PImage [12]; //12 images for the animation
+        //Load images 
         for (int i = 1; i < 13; i ++){
             AttackFrames[i-1] = p.loadImage("images/attack/attack"+i+".png");
         }
@@ -88,17 +95,24 @@ public class Player extends character{
     }
     
     /**
-     * Updates the current image depending on the player's state so that it looks
-     * like the image is moving (animating)
+     * Gets the user's current health
+     * @return the user's health
      */
-    
     public int getHealth(){
         return health;
     }
     
+    /**
+     * When the player takes damage from the boss
+     */
     public void hit(){
-        health--;
+        health--; //Subtract one from their health
     }
+    
+    /**
+     * Updates the current image depending on the player's state so that it looks
+     * like the image is moving (animating)
+     */
     private void updateAnimation(){
         frameCounter++; //Add one to the time
         
@@ -166,28 +180,29 @@ public class Player extends character{
      */
     public void move (int dx){
         
+        //If the player is currently attack override any other animations until it finishes
         if (state == playerState.ATTACK){
             return;
         }
-         x+= dx; //change the x
+        
+         x+= dx; //change the x to how fast the player is moving
          
-         isMoving = (dx != 0); //Change isMoving to true aslong as x or y is changing
-         
+         //If player is moving right change player state to walk right
          if (dx > 0){
              state = playerState.WALKRIGHT;
          }
+         
+         //If player is moving left change player state to walk left
          else if (dx < 0){
              state = playerState.WALKLEFT;
          }
+         
+         //If player is not moving set player state as idle
          else{
              state = playerState.IDLE;
          }
                  
          
-    }
-    
-    public void jump (int dy){
-        y += dy;
     }
     
     /**
@@ -206,6 +221,9 @@ public class Player extends character{
         this.x = x;
     }
     
+    /**
+     * If the player is attacking change the player state and reset the animation counters
+     */
     public void isAttacking(){
         if (state != playerState.ATTACK){
             state = playerState.ATTACK;
@@ -214,21 +232,21 @@ public class Player extends character{
         }
     }
     
+    /**
+     * Reset the players health to what it was before (after death)
+     */
     public void resetHealth(){
         health = startingHealth;
     }
     
-    public String getName(){
-        return name;
-    }
-    
     /**
-     * draws the specified object + it's animations to the screen
+     * Draws the specified object + it's animations to the screen
      */
     @Override
     public void draw(){
         updateAnimation();
         
+        //Draw the player depending on what state they are in
         switch(state){          
             case WALKRIGHT:
                 app.image(walkrightFrames[currentFrame], x, y);

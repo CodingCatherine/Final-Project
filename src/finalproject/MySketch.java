@@ -28,7 +28,7 @@ import java.util.Scanner;
 public class MySketch extends PApplet {
     
     //Set the game State of the beginning of the game
-    gameState State = gameState.ChooseBoss;
+    gameState State = gameState.Opening;
     
     /**
      * Files required for this game
@@ -200,7 +200,7 @@ public class MySketch extends PApplet {
         //Instantiate a opening dialogue for the opening dialogue
         text = new openingDialogue(this, "images/textbox/talkbox.png", opfile, 5, "images/textbox/playericon.png", "images/textbox/wukongicon.png");
         //Instantiate the opening animations
-        Op = new opening (this, "images/opening/Opening24.png", text);
+        Op = new opening (this, text);
         
         //Letter
         continuebutton = new button ("images/title/continue.png", this, 1000, 550);

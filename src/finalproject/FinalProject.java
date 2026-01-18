@@ -4,8 +4,9 @@
  */
 package finalproject;
 /**
- *
- * @author Notak
+ * Final Project for ICS 4U1!
+ * @author Catherine
+ * @since 2026-01-18
  */
 public class FinalProject {
 

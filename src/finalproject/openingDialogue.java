@@ -7,20 +7,36 @@ import processing.core.PApplet;
 import processing.core.PImage;
 import java.io.File;
 /**
- *
- * @author Notak
+ * openingDialogue class displays the opening dialogue of the game
+ * @author Catherine Lin
+ * @since 2026-01-18
  */
 public class openingDialogue extends Dialogue {
-    private PImage player;
-    private PImage Wukong;
+    //Attributes 
+    private PImage player; //holds player icon
+    private PImage Wukong; //holds wukong icon
     
+    /**
+     * Constructor for the openingDialogue class
+     * @param p holds the PApplet
+     * @param boxpath holds the imagepath of the dialogue box
+     * @param d holds the file that the dialogue is from
+     * @param words holds the number of sentences in the file
+     * @param playerPath holds the imagepath of the player's dialogue box
+     * @param wukongPath holds the imagepath of wukong's dialogue box
+     */
     public openingDialogue(PApplet p, String boxpath, File d, int words,  String playerPath, String wukongPath){
+        //Call on parent and assign attributes 
         super(p, boxpath, d, words);
+        //Assign attributes 
         this.player = app.loadImage(playerPath);
         this.Wukong = app.loadImage(wukongPath);
 
     }
-    
+    /**
+     * Displays the Dialogue and changes the current speaker icon depending on who
+     * is talking 
+     */
     @Override
     public void display(){
         app.image(box, 450, 560);
