@@ -75,11 +75,14 @@ public class MySketch extends PApplet {
     private int attackCooldown = 0;
     private boolean bossdeath = false;
     
+    private int bossCooldown = 100;
+    
     private bossSpeech bosssp;
     private button spare;
     private button nospare;
     private boolean finished;
     private boolean spared;
+    
     
     //Flag for if the opening dialogue has finished (set false as it hasn't finished yet)
     public boolean finishedop = false;
@@ -131,7 +134,7 @@ public class MySketch extends PApplet {
                 
        
         batback = new Background(this, "images/battle/battleback.png");
-        bad = new BadGuy(this, 680, 220, "Boss", "images/badguy/idle/Idle1.png", 2);
+        bad = new BadGuy(this, 680, 220, "Boss", "images/badguy/idle/Idle1.png", 10);
         
         bosssp = new bossSpeech(this);
         spare = new button ("images/badguy/spare.png", this, 100, 200);
@@ -299,15 +302,16 @@ public class MySketch extends PApplet {
                 break;
             
             case Battle:
-                if (attackCooldown <= 0){
-                    if (key == 'g' || key == 'G'){
-                        player.isAttacking();
-                        bad.isHit();
-                        System.out.println("Hit");
-                        attackCooldown = 150;
-                        System.out.println(attackCooldown);
+                if (bossCooldown >= 100){
+                    if (attackCooldown <= 0){
+                        if (key == 'g' || key == 'G'){
+                            player.isAttacking();
+                            bad.isHit();
+                            System.out.println("Hit");
+                            attackCooldown = 150;
+                            }
                         }
-                    }
+                }
                 break;
                 
                 
@@ -542,10 +546,16 @@ public class MySketch extends PApplet {
                 break;
                 
             case Battle:
-                    if (attackCooldown > 0){
-                        attackCooldown --;
-                        System.out.println(attackCooldown);
-                    }
+                bossCooldown ++;
+                if (attackCooldown > 0){
+                    attackCooldown --;
+                       
+                }
+                if (bossCooldown >= 300){
+                    bad.Attack();
+                    bossCooldown = 0;
+                }
+                
                 cycleBack1(batback);
                 bad.draw();
                 movement();

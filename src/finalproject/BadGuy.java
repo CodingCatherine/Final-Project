@@ -13,23 +13,26 @@ import processing.core.PImage;
  */
 enum BGStates{
     IDLE,
-    ATTACK,
     HIT,
+    ATTACK,
     }
 public class BadGuy extends character{
     private BGStates state = BGStates.IDLE;
     private int health;
     
+    private boolean attacking = false;
+    private float dropSpeed = 10;
+    private int originalY = 220;
+    private int originalX = 680;
+    
     private PImage[] idleFrames;
-    private PImage[] attackFrames;
     private PImage[] hitFrames;
     
     private int currentFrame = 0; // Holds the index of the current frame
     private int frameCounter = 0; // Holds the amount of time/frames the current frame has been drawn onto the screen
     private int frameSpeed = 10; // Holds the amount of time/frames each frame in the animation should last
     
-    private int attackSpeed = 20;
-    private int attackCounter = 0;
+
     
     public BadGuy(PApplet p, int x, int y, String name, String imagePath, int health){
         super(p,x,y,name,imagePath);
@@ -39,10 +42,6 @@ public class BadGuy extends character{
         idleFrames = new PImage[16];
         for(int i = 1; i < 17; i++){
             idleFrames[i-1] = p.loadImage("images/badguy/idle/Idle"+i+".png");
-        }
-        attackFrames = new PImage[16];
-        for(int i = 1; i < 17; i++){
-            attackFrames[i-1] = p.loadImage("images/badguy/attack/Attack"+i+".png");
         }
         hitFrames = new PImage[8];
         for(int i = 1; i < 9; i++){
@@ -55,21 +54,7 @@ public class BadGuy extends character{
         frameCounter++;
         
         switch(state){
-            case ATTACK:
-                if (frameCounter >= frameSpeed) {
-                    int previousFrame = currentFrame;
-                    //Displays the next frame if the previous frame has been displayed for long enough
-                    //If the program reaches the last frame it will loop to the beginning again
-                    currentFrame = (currentFrame + 1) % attackFrames.length;
-                    //Set frame counter to 0 since the new frame has just been displayed
-                    frameCounter = 0;
-                    
-                    if (currentFrame == 0 && previousFrame == attackFrames.length -1){
-                        state = BGStates.IDLE;
-                    }
-                }
-                break;
-                
+            
             case HIT:
                 if (frameCounter >= frameSpeed) {
                     int previousFrame = currentFrame;
@@ -95,16 +80,27 @@ public class BadGuy extends character{
                 }
                 break;
                 
+                
+            case ATTACK:
+                y+= dropSpeed;
+                if (y > app.height){
+                    y = originalY;
+                    x = originalX;
+                    state = BGStates.IDLE;
+                    attacking = false;
+                }
+                break;
+                
         }
     }
     
-    public void isAttacking(){
-        if (state != BGStates.ATTACK){
-            state = BGStates.ATTACK;
-            currentFrame = 0;
-            frameCounter = 0;
-        }
+    public void Attack(){
+        state = BGStates.ATTACK;
+        x = (int) app.random(0, 1000);
+        y = -200;
+        attacking = true;
     }
+
     
     public void isHit(){
         if (state != BGStates.HIT){
@@ -119,7 +115,6 @@ public class BadGuy extends character{
         boolean dead = false;
         if (health <= 0){
             dead = true;
-            System.out.println("dead....");
         }
         return dead;
     }
@@ -143,8 +138,8 @@ public class BadGuy extends character{
                 break;
                 
             case ATTACK:
-                app.image(attackFrames[currentFrame], x, y);
-                break;
+                app.image(idleFrames[0], x, y);
+                
         }
     }
 }
