@@ -28,7 +28,7 @@ import java.util.Scanner;
 public class MySketch extends PApplet {
     
     //Set the game State of the beginning of the game
-    gameState State = gameState.Opening;
+    gameState State = gameState.ChooseBoss;
     
     /**
      * Files required for this game
@@ -36,6 +36,7 @@ public class MySketch extends PApplet {
     
     private File opfile = new File ("openingDialogue.txt"); //Opening Dialogue
     private File currPlay = new File ("currentPlayer.txt"); //Current Player's Information
+    private File scores = new File ("scores.txt"); //Scores of the game
     
     /**
      * Character Declarations
@@ -97,6 +98,8 @@ public class MySketch extends PApplet {
     private int batcounter = 0;
     //Holds the leaderboard/summary of the user's points at the end
     private Leaderboard lead;
+    //Checks for highest score 
+    private compare comp;
     
     /**
      * Buttons and Flags
@@ -238,6 +241,7 @@ public class MySketch extends PApplet {
         ending = new Background(this, "images/ending.png");
         lead = new Leaderboard(currPlay);
         exit = new button ("images/title/exit.png",this, 200, 550);
+        comp = new compare (scores, lead.getScore());
 
     }
 
@@ -583,7 +587,22 @@ public class MySketch extends PApplet {
                     System.out.println("IO Error");
                 }
                 break;
+                
+            case BadEnding:
+            case GoodEnding:
+                try{
+                    FileWriter write1 = new FileWriter(file, true); //Initialize filewriter
+                    PrintWriter output = new PrintWriter(write1); //Initialize printwriter
+                    output.println(lead.getScore()); //Write the player's score to the file
+                    output.close(); //close printwriter
+                    
+                //If exception is thrown print out an error code
+                }catch(IOException e){
+                    System.out.println("IO Error");
+                }
+                break;
         }
+
     }
     
     /**
@@ -827,7 +846,9 @@ public class MySketch extends PApplet {
                 goodEnding.displayEnding();
                 if (goodEnding.getCurrentFrame() >= 39){
                     //Once the animation finished switch to the final level and run the score calculator
-                    lead.runLogic();
+                    lead.runLogic(); 
+                    writeInfo(scores);//Write the score of the user to the file
+                    comp.setScore(lead.getScore()); //Set the final score
                     changeState(gameState.End);
                 }
                 break;
@@ -838,6 +859,8 @@ public class MySketch extends PApplet {
                 if (badEnding.getCurrentFrame() >= 39){
                     //Once the animation finished switch to the final level and run the score calculator
                     lead.runLogic();
+                    writeInfo(scores); //Write the score of the user to the file
+                    comp.setScore(lead.getScore()); //Set the final score
                     changeState(gameState.End);
                 }
                 break;
@@ -853,6 +876,7 @@ public class MySketch extends PApplet {
                 text(player.getName(), 45, 160);
                 text("You Died: " + lead.getDeaths() + " Times.", 45, 260);
                 text("You End Score is: " + lead.getScore(), 45, 360);
+                text("Highest Score: " + comp.runCheck(), 600, 160);
                 
                 //A small comment depending on what the user's end score is 
                 if (lead.getScore() >= 100){
