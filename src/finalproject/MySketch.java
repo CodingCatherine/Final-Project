@@ -28,7 +28,7 @@ import java.util.Scanner;
 public class MySketch extends PApplet {
     
     //Set the game State of the beginning of the game
-    gameState State = gameState.ChooseBoss;
+    gameState State = gameState.Title;
     
     /**
      * Files required for this game
