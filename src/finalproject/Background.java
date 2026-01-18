@@ -51,14 +51,16 @@ public class Background {
                 currentFrame ++;
                 frameCounter = 0; 
             }
-        }else{
-            currentFrame = 49;
         }
     }
     
     public void displayEnding(){
         animate();
         app.image(images[currentFrame], 0, 0);
+    }
+    
+    public int getCurrentFrame(){
+        return currentFrame;
     }
     
     public void displayone(){

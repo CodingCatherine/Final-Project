@@ -218,6 +218,10 @@ public class Player extends character{
         health = startingHealth;
     }
     
+    public String getName(){
+        return name;
+    }
+    
     /**
      * draws the specified object + it's animations to the screen
      */

@@ -3,8 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package finalproject;
-//import PApplet
-import java.io.File;
+
+/**Required imports 
+ * File and FileNotFound to use files
+ * PApplet for the graphics
+ * PrintWriter, FileWriter, Scanner and IO exception for reading and writing to flat file
+ */
+
+import java.io.File; 
 import java.io.FileNotFoundException;
 import processing.core.PApplet;
 import java.io.IOException;
@@ -15,89 +21,113 @@ import java.util.Scanner;
 /**
  * MySketch class allows for us to add graphics and draw to the screen
  * @author Catherine Lin
- * @since 2026-01-06
- * @version 2
+ * @since 2026-01-18
+ * @version 4
  */
 
 public class MySketch extends PApplet {
-    //Initialize a player object
-    private Player player;
-    private String playerName = "";
-    
-    //Create an opening object to play the opening sequence
-    private opening Op;
-    //Create a Dialogue object for the opening dialogue
-    private Dialogue text;
-    //Import the opening dialogue as a file
-    private File opfile = new File ("openingDialogue.txt");
-    
-    private Title title; 
-    private button startbutton;
-    private button endbutton;
-    
-    private Background controls;
-    private button contbut;
-    
-    private button continuebutton;
-    private letter Letter;
-    private Background tutback;
-    
-    private Background charcreate;
-    private File currPlay = new File ("currentPlayer.txt");
-    
-    
-    private spawnChars tut;
-    private File tutchars = new File ("charList1.txt");
-    private character[] tutorchars;
     
     //Set the game State of the beginning of the game
-    gameState State = gameState.Tutorial;
+    gameState State = gameState.ChooseBoss;
     
-    //Don't show the player/boss information until the user clicks it
+    /**
+     * Files required for this game
+     */
+    
+    private File opfile = new File ("openingDialogue.txt"); //Opening Dialogue
+    private File currPlay = new File ("currentPlayer.txt"); //Current Player's Information
+    
+    /**
+     * Character Declarations
+     */
+    //Player 
+    private Player player; //Create Player Object
+    private String playerName = ""; //Holds Player Name
+    private int damageCooldown = 100; // Holds the cooldown for the player damage
+    //Don't show the player information until the user clicks it
     private boolean playershowInfo = false;
-   
-    private button arrow;
-    private int currentMonkey = 0;
-    private boolean monkshowInfo = false;
-    private boolean clickedaMonkey = false;
-    public int monkeysClicked = 0;
     
-    private int currentTree = 0;
-    private boolean treeshowInfo = false;
-    private boolean clickedaTree = false;
-    public int treesClicked = 0;
-    private monkeySpeech monksp;
+    //Character Array to hold other characters
+    private spawnChars tut; //Spawns Characters 
+    private File tutchars = new File ("charList1.txt"); //File that holds the characters
+    private character[] tutorchars; //Character array of characters
     
-    private Background batbackdia1;
-    private Background batbackdia2;
+    //Monkey
+    private int currentMonkey = 0; // Holds the current monkey clicked
+    private boolean monkshowInfo = false; //Checks if a monkey is showing info
+    private boolean clickedaMonkey = false; // Checks if user has clicked a monkey
+    public int monkeysClicked = 0; //Holds the number of monkeys clicked
+    private monkeySpeech monksp; //Holds the dialogue of the monkeys
     
+    //Tree
+    private int currentTree = 0; // Holds the current tree clicked
+    private boolean treeshowInfo = false; //Checks if a tree is showing info
+    private boolean clickedaTree = false; //Checks if user has clicked a tree
+    public int treesClicked = 0; // Holds the number of trees clicked
+    
+    
+    //Boss
+    private BadGuy bad;//Create Boss Object
+    private int attackCooldown = 0; //Attack Cooldown for the boss
+    private boolean bossdeath = false; //Checks if boss has been defeated
+    private int bossCooldown = 100; //Cooldown for the boss' attacks
+    private bossSpeech bosssp; //Holds the dialogue of the boss
+    
+    /**
+     * Backgrounds and dialogue 
+     */
+    
+    private Title title; //Holds the title Screen 
+    private Background controls; //Holds the controls screen
+    private Background charcreate; // Holds the character creation screen
+    private opening Op; //Holds Opening Sequence
+    private letter Letter; //Holds Wukong's Letter
+    private Background tutback; //Holds the background of the monkey forest
+    private Background batbackdia1; //Holds the background dialogue prebattle
+    private Background batbackdia2; //Holds the background dialogue prebattle
+    private Background batback; //Holds the battle background
+    private Background death; //Holds the death screen
+    private Background goodEnding; //Holds the good ending scene
+    private Background badEnding; //Holds the bad ending scene
+    private Background ending; //Holds the ending screen
+
+    //Create a Dialogue object for the opening dialogue
+    private Dialogue text;
+    //Holds the counter for the prebattle dialogue
     private int batcounter = 0;
+    //Holds the leaderboard/summary of the user's points at the end
+    private Leaderboard lead;
     
-    private Background batback;
-    private BadGuy bad;
-    private int attackCooldown = 0;
-    private boolean bossdeath = false;
+    /**
+     * Buttons and Flags
+     */
     
-    private int bossCooldown = 100;
-    private int damageCooldown = 100;
+    //Title
+    private button startbutton; 
+    private button endbutton;
     
-    private bossSpeech bosssp;
-    private button spare;
-    private button nospare;
-    private boolean finished;
-    private boolean spared;
+    //Controls
+    private button contbut;
     
-    private Background death;
+    //Letter
+    private button continuebutton;
+    
+    //Monkey Forest
+    private button arrow;
+    
+    //Player Death
     private button moveon;
     
+    //Choose Boss
+    private button spare;
+    private button nospare;
     
-    //Flag for if the opening dialogue has finished (set false as it hasn't finished yet)
-    public boolean finishedop = false;
+    //End
+    private button exit;
     
-    private Background goodEnding;
-    private Background badEnding;
-    
-    
+    private boolean finished; //Checks if dialogue has finished
+    private boolean spared; //Checks if user has spared the boss
+    public boolean finishedop = false; //Checks if the opening has finished
 
     /**
      * Allows us to change the settings of the PApplet
@@ -154,8 +184,13 @@ public class MySketch extends PApplet {
         death = new Background (this, "images/death.png");
         moveon = new button ("images/title/continue.png", this, 1000, 400);
         
-        goodEnding = new Background(this, 50, "goodEnding", "good");
-        badEnding = new Background(this, 50, "badEnding", "bad");
+        goodEnding = new Background(this, 40, "goodEnding", "good");
+        badEnding = new Background(this, 40, "badEnding", "bad");
+        
+        ending = new Background(this, "images/ending.png");
+        lead = new Leaderboard(currPlay);
+        exit = new button ("images/title/exit.png",this, 200, 550);
+        
         
     }
     
@@ -262,6 +297,14 @@ public class MySketch extends PApplet {
                     bad.resetHealth();
                     changeState(gameState.Tutorial);
                 }
+                break;
+                
+            case End:
+                if (exit.isClicked(mouseX, mouseY)){
+                    System.exit(0);
+                }
+                
+               
         }
         
         
@@ -642,13 +685,38 @@ public class MySketch extends PApplet {
                 
             case GoodEnding:
                 goodEnding.displayEnding();
+                if (goodEnding.getCurrentFrame() >= 39){
+                    lead.runLogic();
+                    changeState(gameState.End);
+                }
                 break;
                 
             case BadEnding:
                 badEnding.displayEnding();
+                if (badEnding.getCurrentFrame() >= 39){
+                    lead.runLogic();
+                    changeState(gameState.End);
+                }
                 break;
                
             case End:
+                ending.displayone();
+                exit.display();
+                fill(0);
+                textSize(35);
+                text(player.getName(), 45, 160);
+                text("You Died: " + lead.getDeaths() + " Times.", 45, 260);
+                text("You End Score is: " + lead.getScore(), 45, 360);
+                if (lead.getScore() >= 100){
+                    text("WOW! Your Score is Exceptional!", 45, 460);
+                }
+                
+                else if (lead.getScore() <= 10){
+                    text("Your Score is so low. You can play again for a higher one", 35, 460);
+                }
+                else{
+                    text("You did average. Try again for a higher score", 35, 460);
+                }
                 break;
                   
         }        
