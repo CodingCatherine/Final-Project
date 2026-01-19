@@ -16,6 +16,7 @@ public class Monkey extends character {
     private String text; //Holds the dialogue of the monkey
     private final String deftext = "..."; //Holds the default dialogue of the monkey
     private int scene; //Holds the scene that the monkey is supposed to appear on 
+    public static int numMonkeys = 0; //Number of monkeys created
     
     
     /**
@@ -33,6 +34,7 @@ public class Monkey extends character {
         //Assign attributes 
         this.text = text;
         this.scene = scene;
+        numMonkeys ++; //Add a monkey to the count
     }
     
     /**
@@ -49,6 +51,7 @@ public class Monkey extends character {
         //Assign attributes 
         this.text = deftext;
         this.scene = scene;
+        numMonkeys ++; //Add a monkey to the count
     }
     
     /**

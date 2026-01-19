@@ -26,7 +26,7 @@ public class BadGuy extends character{
     private int health; //current health of the player 
     private final int startingHealth; //the starting health of the user
     
-    private float dropSpeed = 10; //The speed of which the boss drops 
+    private int dropSpeed = 10; //The speed of which the boss drops 
     private int originalY = 220; // The starting y of the boss
     private int originalX = 680; // The starting x of the boss
     

@@ -188,9 +188,9 @@ public class MySketch extends PApplet {
          */
         
         //Title
-        title = new Title("images/title/titleScreen.png", this, startbutton, endbutton);
         startbutton = new button("images/title/start.png", this, 150, 450);
         endbutton = new button("images/title/exit.png", this, 900, 450); 
+        title = new Title("images/title/titleScreen.png", this, startbutton, endbutton);
         
         //Controls
         controls = new Background (this, "images/controls.png");
@@ -386,11 +386,13 @@ public class MySketch extends PApplet {
         switch (key) {
             //If the user chooses to move left "a" dx = -5 (moving left) 
             case 'a':
-            dx = -20;
+                case 'A':
+                dx = -5;
             break;
             //If the user chooses to move right "d" dx = 5 (moving right)
             case 'd':
-            dx = 20;
+            case 'D':
+                dx = 5;
             break;
             }
         }
@@ -552,7 +554,7 @@ public class MySketch extends PApplet {
                 try{
                     FileWriter write1 = new FileWriter(file, true); //Initialize filewriter
                     PrintWriter output = new PrintWriter(write1); //Initialize printwriter
-                    output.println(monkeysClicked); //Write the number of monkeys clicked
+                    output.println(monkeysClicked/Monkey.numMonkeys); //Write the number of monkeys clicked / number of monkeys created
                     output.println(treesClicked); //Write the number of trees clicked
                     output.close(); //close printwriter
                     
